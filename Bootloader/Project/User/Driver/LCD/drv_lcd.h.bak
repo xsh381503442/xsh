@@ -1,0 +1,43 @@
+#ifndef __DRV_LCD_H__
+#define __DRV_LCD_H__
+
+
+#include <stdint.h>
+#define DRV_LCD_PIN_VST                   3
+#define DRV_LCD_PIN_VCK                   8
+#define DRV_LCD_PIN_ENB                   1
+#define DRV_LCD_PIN_XRST                  41
+#define DRV_LCD_PIN_XFRP                  35/**<TCTA1>*/
+#define DRV_LCD_PIN_HST                   0
+#define DRV_LCD_PIN_HCK                   9
+#define DRV_LCD_PIN_RED0                  16
+#define DRV_LCD_PIN_GREEN0                15
+#define DRV_LCD_PIN_BLUE0                 14
+#define DRV_LCD_PIN_RED1                  12
+#define DRV_LCD_PIN_GREEN1                11
+#define DRV_LCD_PIN_BLUE1                 10
+#define DRV_LCD_PIN_VCOM                  33/**<TCTB1>*/
+#define DRV_LCD_PIN_V3_3                  13
+#define DRV_LCD_PIN_V4_5                  38
+
+
+#define DRV_LCD_HIGHT          240
+#define DRV_LCD_WIDTH          240
+
+typedef struct{
+
+	uint16_t x;
+	uint16_t height;
+	uint16_t y;
+	uint16_t width;
+}_drv_lcd_graph;
+
+
+void drv_lcd_init(void);
+void drv_lcd_uninit(void);
+void drv_lcd_set_one_frame(_drv_lcd_graph *graph);
+
+
+
+
+#endif //__DRV_LCD_H__

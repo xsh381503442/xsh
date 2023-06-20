@@ -1,0 +1,1 @@
+C:\Windows\System32\cp.exe .\HY100\Output\application.hex ..\..\..\..\..\..\output\download_tool\application

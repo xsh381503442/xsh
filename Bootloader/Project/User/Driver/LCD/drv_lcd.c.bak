@@ -1,0 +1,295 @@
+#include "drv_lcd.h"
+#include "rtt_log.h"
+#include "lib_error.h"
+#include "com_apollo2.h"
+#include "SEGGER_RTT.h"
+
+#include "am_mcu_apollo.h"
+#include "com_apollo2.h"
+#include "am_util_delay.h"
+#include <string.h>
+
+#define MOUDLE_LOG_ENABLED 							0
+#define MOUDLE_DEBUG_ENABLED   					0
+#define MOUDLE_NAME                     "[DRV_LCD]:"
+
+#if MOUDLE_LOG_ENABLED == 1 && RTT_LOG_ENABLED == 1
+#define LOG_PRINTF(...)                      SEGGER_RTT_printf(0, ##__VA_ARGS__) 
+#define LOG_HEXDUMP(p_data, len)             rtt_log_hexdump(p_data, len) 
+#else
+#define LOG_PRINTF(...) 
+#define LOG_HEXDUMP(p_data, len)             
+#endif
+
+#if MOUDLE_DEBUG_ENABLED == 1 && RTT_LOG_ENABLED == 1
+#define DEBUG_PRINTF(...)                    SEGGER_RTT_printf(0, ##__VA_ARGS__)
+#define DEBUG_HEXDUMP(p_data, len)           rtt_log_hexdump(p_data, len)
+#else
+#define DEBUG_PRINTF(...)   
+#define DEBUG_HEXDUMP(p_data, len) 
+#endif
+
+
+
+#define AM_BSP_PWM_XFRP_TIMER               1
+#define AM_BSP_PWM_XFRP_TIMER_SEG            AM_HAL_CTIMER_TIMERA
+#define AM_BSP_PWM_XFRP_TIMER_INT            AM_HAL_CTIMER_INT_TIMERA1
+#define AM_BSP_PWM_VCOM_TIMER               1
+#define AM_BSP_PWM_VCOM_TIMER_SEG            AM_HAL_CTIMER_TIMERB
+#define AM_BSP_PWM_VCOM_TIMER_INT            AM_HAL_CTIMER_INT_TIMERB1
+
+
+
+
+
+//static bool m_levelVck   = false; 
+//static bool m_levelEnb   = false;
+//static bool m_levelHck   = false;
+static bool m_enableEnb  = false;
+extern uint8_t g_lcd_ram[DRV_LCD_HIGHT*2][DRV_LCD_WIDTH/2];
+
+
+
+
+
+void drv_lcd_init(void)
+{
+	DEBUG_PRINTF(MOUDLE_NAME"drv_lcd_init\n");	
+	PIN_CONFIG(DRV_LCD_PIN_VST,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_VCK,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_ENB,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_XRST,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_HST,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_HCK,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_RED0,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_GREEN0,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_BLUE0,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_RED1,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_GREEN1,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_BLUE1,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_VCOM,AM_HAL_PIN_33_TCTB1);
+	PIN_CONFIG(DRV_LCD_PIN_XFRP,AM_HAL_PIN_35_TCTA1);
+	PIN_CONFIG(DRV_LCD_PIN_V3_3,AM_HAL_GPIO_OUTPUT);
+	PIN_CONFIG(DRV_LCD_PIN_V4_5,AM_HAL_GPIO_OUTPUT);	
+	
+	PIN_CLEAR(DRV_LCD_PIN_VST);
+	PIN_CLEAR(DRV_LCD_PIN_VCK);
+	PIN_CLEAR(DRV_LCD_PIN_ENB);
+	PIN_CLEAR(DRV_LCD_PIN_XRST);
+	PIN_CLEAR(DRV_LCD_PIN_HST);
+	PIN_CLEAR(DRV_LCD_PIN_HCK);
+	PIN_CLEAR(DRV_LCD_PIN_RED0);
+	PIN_CLEAR(DRV_LCD_PIN_GREEN0);
+	PIN_CLEAR(DRV_LCD_PIN_BLUE0);
+	PIN_CLEAR(DRV_LCD_PIN_RED1);
+	PIN_CLEAR(DRV_LCD_PIN_GREEN1);
+	PIN_CLEAR(DRV_LCD_PIN_BLUE1);
+	PIN_SET(DRV_LCD_PIN_V3_3);
+	PIN_SET(DRV_LCD_PIN_V4_5);
+	
+	
+	am_hal_ctimer_config_single(AM_BSP_PWM_VCOM_TIMER, AM_BSP_PWM_VCOM_TIMER_SEG,
+															(AM_HAL_CTIMER_FN_PWM_REPEAT |
+															 AM_HAL_CTIMER_LFRC_512HZ |
+															 AM_HAL_CTIMER_PIN_ENABLE));	
+	am_hal_ctimer_period_set(AM_BSP_PWM_VCOM_TIMER, AM_BSP_PWM_VCOM_TIMER_SEG,8, 4);	
+	am_hal_ctimer_start(AM_BSP_PWM_VCOM_TIMER, AM_BSP_PWM_VCOM_TIMER_SEG);
+	am_hal_ctimer_config_single(AM_BSP_PWM_XFRP_TIMER, AM_BSP_PWM_XFRP_TIMER_SEG,
+															(AM_HAL_CTIMER_FN_PWM_REPEAT |	
+															 AM_HAL_CTIMER_PIN_INVERT |															
+															 AM_HAL_CTIMER_LFRC_512HZ |
+															 AM_HAL_CTIMER_PIN_ENABLE));	
+														 
+	am_hal_ctimer_period_set(AM_BSP_PWM_XFRP_TIMER, AM_BSP_PWM_XFRP_TIMER_SEG,8, 4);
+	am_hal_ctimer_start(AM_BSP_PWM_XFRP_TIMER, AM_BSP_PWM_XFRP_TIMER_SEG);
+}
+
+void drv_lcd_uninit(void)
+{
+	DEBUG_PRINTF(MOUDLE_NAME"drv_lcd_uninit\n");
+	PIN_CONFIG(DRV_LCD_PIN_VST,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_VCK,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_ENB,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_XRST,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_HST,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_HCK,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_RED0,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_GREEN0,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_BLUE0,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_RED1,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_GREEN1,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_BLUE1,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_VCOM,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_XFRP,AM_HAL_GPIO_DISABLE);	
+	PIN_CONFIG(DRV_LCD_PIN_V3_3,AM_HAL_GPIO_DISABLE);
+	PIN_CONFIG(DRV_LCD_PIN_V4_5,AM_HAL_GPIO_DISABLE);
+
+	am_hal_ctimer_stop(AM_BSP_PWM_VCOM_TIMER, AM_BSP_PWM_VCOM_TIMER_SEG);
+	am_hal_ctimer_stop(AM_BSP_PWM_XFRP_TIMER, AM_BSP_PWM_XFRP_TIMER_SEG);
+
+}
+/**
+
+RGB  :  0  R0  G0  B0  0  R1  G1  B1
+PIN  :     16  15  14     12  11  10
+WTA Register : GPIO31-0 write data.
+
+*/
+static __inline void rgb_set(uint8_t rgb)
+{	
+//	uint32_t temp = ((rgb&0x70)<<10)|((rgb&0x07)<<10);
+//	AM_REGn(GPIO, 0, WTA) = ( AM_REGn( GPIO, 0, WTA ) & 0xFFFE23FF ) | temp;
+	
+
+	AM_REGn(GPIO, 0, WTA) = ( AM_REGn( GPIO, 0, WTA ) & 0xFFFE23FF ) | (rgb<<10);	
+	
+}
+
+
+
+
+static __inline void invert_vck(void)
+{
+
+//	if (m_levelVck) 
+//	{
+//		PIN_CLEAR(DRV_LCD_PIN_VCK);             
+//		m_levelVck = false;
+//	} 
+//	else 
+//	{
+//		PIN_SET(DRV_LCD_PIN_VCK);              
+//		m_levelVck = true;
+//	}
+
+	PIN_TOGGLE(DRV_LCD_PIN_VCK); 
+}
+
+
+static __inline void invert_enb(void)
+{
+//	if (m_levelEnb) 
+//	{
+//		PIN_CLEAR(DRV_LCD_PIN_ENB);         
+//		m_levelEnb = false;
+//	} 
+//	else 
+//	{
+//		PIN_SET(DRV_LCD_PIN_ENB);            
+//		m_levelEnb = true;
+//	}
+	
+	PIN_TOGGLE(DRV_LCD_PIN_ENB); 
+	
+}
+
+
+static __inline void invert_hck(void)
+{
+
+//	if (m_levelHck) 
+//	{
+//		PIN_CLEAR(DRV_LCD_PIN_HCK);    
+//		m_levelHck = false;
+//	} 
+//	else 
+//	{
+//		PIN_SET(DRV_LCD_PIN_HCK); 
+//		m_levelHck = true;
+//	}
+	
+	PIN_TOGGLE(DRV_LCD_PIN_HCK); 
+	
+}
+
+
+static __inline void horizontal_set(uint8_t *rgb)
+{
+
+	invert_vck();
+	PIN_CLEAR(DRV_LCD_PIN_VST);	
+	PIN_SET(DRV_LCD_PIN_HST); 
+	invert_hck();
+	invert_hck();
+	PIN_CLEAR(DRV_LCD_PIN_HST); 
+
+	for (uint8_t col = 0; col < 60;col++) 
+	{
+		rgb_set(*rgb++); 
+		invert_hck();
+		rgb_set(*rgb++);
+		invert_hck();
+		
+		if(m_enableEnb)
+		{
+			if(col == 4 || col == 14)
+			{
+				invert_enb();
+			}
+		}	
+
+
+	}
+	rgb_set(0x00); 
+	invert_hck();
+	invert_hck();	
+	m_enableEnb = false;
+}
+
+
+void drv_lcd_set_one_frame(_drv_lcd_graph *graph)
+{
+	DEBUG_PRINTF(MOUDLE_NAME"drv_lcd_set_one_frame\n");	
+//	m_levelVck = false;
+//	m_levelHck = false;
+//	m_levelEnb = false;
+	m_enableEnb = false;
+	
+	PIN_SET(DRV_LCD_PIN_XRST); 
+	PIN_SET(DRV_LCD_PIN_VST);
+	invert_vck();
+	
+	for(uint32_t line = 0;line < DRV_LCD_HIGHT*2;)
+	{
+		if(line<(graph->x) || line>=(graph->x+graph->height))
+		{
+			invert_vck();
+			PIN_CLEAR(DRV_LCD_PIN_VST);
+			line++;
+			if(m_enableEnb)
+			{
+				m_enableEnb = false;
+				invert_enb();
+				invert_enb();
+			}			
+			invert_vck();
+			line++;
+		}
+		else
+		{
+			horizontal_set(g_lcd_ram[line]);
+			m_enableEnb = true;
+			line++;
+			horizontal_set(g_lcd_ram[line]);
+			m_enableEnb = true;
+			line++;
+		}		
+	}	
+	
+
+	invert_vck();         
+	if(m_enableEnb)
+	{
+		invert_enb();      
+		invert_enb();            
+	}
+	invert_vck();
+	invert_vck();
+	PIN_CLEAR(DRV_LCD_PIN_XRST);
+
+}
+
+
+
+
+

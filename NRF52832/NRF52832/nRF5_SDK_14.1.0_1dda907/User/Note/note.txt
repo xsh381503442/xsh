@@ -1,0 +1,11 @@
+1.When use optimization, all variables need to be initialized, in order to rid of wrong compiling.
+2.When use optimization, all struct typedef should be :
+struct s_ble_image_bank
+{
+	uint32_t                extFlash_address;
+    uint32_t                image_size;         
+    uint32_t                image_crc;  
+	uint32_t            version;   	
+    uint32_t                command;          
+};
+typedef struct s_ble_image_bank _ble_image_bank;

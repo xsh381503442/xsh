@@ -1,0 +1,7 @@
+E:\ImgConv\ImgConvApp\ImgConvApp\bin\Release\ImgConvApp.exe
+E:\ImgConv\ImgConvApp\ImgConvApp\bin\Release\ImgConvApp.pdb
+E:\ImgConv\ImgConvApp\ImgConvApp\obj\x86\Release\ImgConvApp.FormMain.resources
+E:\ImgConv\ImgConvApp\ImgConvApp\obj\x86\Release\ImgConvApp.Properties.Resources.resources
+E:\ImgConv\ImgConvApp\ImgConvApp\obj\x86\Release\ImgConvApp.csproj.GenerateResource.Cache
+E:\ImgConv\ImgConvApp\ImgConvApp\obj\x86\Release\ImgConvApp.exe
+E:\ImgConv\ImgConvApp\ImgConvApp\obj\x86\Release\ImgConvApp.pdb

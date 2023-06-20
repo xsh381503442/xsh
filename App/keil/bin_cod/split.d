@@ -1,0 +1,9 @@
+.\bin_cod\split.o: ..\user\lib\QrCoder\split.c
+.\bin_cod\split.o: D:\keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\bin_cod\split.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
+.\bin_cod\split.o: D:\keil\ARM\ARMCC\Bin\..\include\errno.h
+.\bin_cod\split.o: ..\user\lib\QrCoder\qrencode.h
+.\bin_cod\split.o: ..\user\lib\QrCoder\qrinput.h
+.\bin_cod\split.o: ..\user\lib\QrCoder\bitstream.h
+.\bin_cod\split.o: ..\user\lib\QrCoder\qrspec.h
+.\bin_cod\split.o: ..\user\lib\QrCoder\split.h

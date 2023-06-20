@@ -1,0 +1,752 @@
+#ifndef COM_SPORT_H
+#define	COM_SPORT_H
+
+#include "task_display.h"
+#include "bsp_rtc.h"
+#include "com_data.h"
+#include "watch_config.h"
+
+#define Def_HighPrecision 0
+#define OrdinaryPrecision 1
+#define LowperPrecision   2
+
+#define		ACT_RUN				        0xA1    //跑步
+#define		ACT_WALK		  0xA2    //健走
+#define   ACT_MARATHON      		0xA3    //马拉松
+#define		ACT_SWIMMING			    0xA4    //游泳
+#define		ACT_INDOORRUN			    0xA5    //室内跑
+#define		ACT_CROSSCOUNTRY	  	0xA6    //越野跑
+#define		ACT_HIKING				    0xA7    //徒步越野
+#define		ACT_CLIMB				      0xA8    //登山
+#define		ACT_CYCLING				    0xA9    //骑行
+#define		ACT_TRIATHLON_SWIM		0xAA    //铁人三项游泳
+#define		ACT_TRIATHLON_FIRST		0xAB	  //铁人三项第一次换项
+#define		ACT_TRIATHLON_CYCLING	0xAC    //铁人三项骑行
+#define		ACT_TRIATHLON_SECOND	0xAD	  //铁人三项第二次换项
+#define		ACT_TRIATHLON_RUN		  0xAE    //铁人三项跑步
+#define   ACT_TRAIN_PLAN_RUN    0xAF    //训练计划跑步
+#define   ACT_TRAIN_PLAN_CYCLING  0xB1   //训练计划骑行
+#define   ACT_TRAIN_PLAN_SWIMMING 0xB2   //训练计划游泳
+
+
+#define		ACTIVITY_DETAILS_DATA_SIZE		48
+
+#define	    DAY_ACTIVITY_MAX_NUM			30		//每天最大活动数
+
+#define		ACTIVITY_DATA_START_ADDRESS		((uint32_t)DAY_COMMON_DATA_SIZE)  			//存储活动数据的偏移地址
+#define		ACTIVITY_DAY_DATA_SIZE			(sizeof(ActivityDataStr))  //活动数据的数据空间  
+
+#define     SHARETRACK_SIZE   48*1024		//每份共享轨迹大小 48K
+
+#define ZoomBase  2000 //米 ,导航显示基准
+
+#define ZoomBase_Track  200 //米，轨迹记录显示基准
+
+#define STORE_STEP_BYTE_SIZE        4
+#define STORE_PRESSURE_BYTE_SIZE    4
+#define STORE_DISTANCE_BYTE_SIZE    4
+#define STORE_CALORIES_BYTE_SIZE    4
+#define STORE_SPEED_BYTE_SIZE       2
+#define STORE_DISTANCEPOINT_BYTE_SIZE 4
+#define STORE_CIRCLETIME_BYTE_SIZE    4
+#define STORE_GPS_BYTE_SIZE         4
+#define STORE_AXIS_BYTE_SIZE         2
+#define STORE_PRES_BYTE_SIZE         4
+#define STORE_HEARTRATE_BYTE_SIZE         1
+#define STORE_ALT_BYTE_SIZE         4
+
+
+
+#define UPDATE_ALTITUDE_RISE_CYCLING 2.5f //骑行高度上升更新基础值
+#define UPDATE_ALTITUDE_RISE_ELSE 3.5f //其他运动高度上升更新基础值
+#define UPDATE_ALTITUDE_RISE_CLIMB 4.0f //登山高度上升更新基础值
+#define UPDATE_ALTITUDE_DECLINE 2.5f //高度下降更新基础值
+#define AIR_PRESSURE_DEVIATION  0.5f //气压传感器静态偏差值
+#define UPDATA_POINT_THRESHOLD  1.0f //上坡起点高度更新基础值
+#define MAX_RISE_EXCEPTION  15.0f //上升异常临界值
+#define MAX_DECLINE_EXCEPTION  30.0f //下降异常临界值
+
+//#define GOD_GPS_PREPOINT_NUM (OPTIMIZING_RESULT_POINTS_SIZE + SMOOTH_POINTS_SIZE + DELDRIFT_POINTS_SIZE) //预先存储点数最大值
+//float com_sport_limit_rise_para[3] = {0.577,1.0,1.732}; 
+//float climb_limit_rise_para[3] = {1.0,1.732,2.5}; 
+
+#if defined WATCH_SPORT_NEW_CLOUD_NAVIGATION
+extern bool gps_store_flag;
+#endif
+typedef struct
+{
+	uint32_t	Steps;              //步数
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Speed;              //平均速度
+	uint16_t	OptimumSpeed;       //最佳速度
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+	uint8_t 	AnaerobicEffect;    //无氧效果
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+	uint16_t 	RecoveryTime;       //恢复时间
+	uint8_t 	SubjectiveEvaluate; //主观评价
+	uint8_t	    HRRecovery;         //心率恢复率
+	uint16_t	RiseHeight;         //上升高度
+	uint16_t	DropHeight;         //下降高度
+
+}CommonDetailStr;
+
+
+typedef struct
+{
+	uint32_t	Steps;              //步数
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Pace;               //配速
+	uint16_t	OptimumPace;        //最佳配速
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+	uint8_t 	AnaerobicEffect;    //无氧效果
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+	uint16_t 	RecoveryTime;       //恢复时间
+	uint8_t 	SubjectiveEvaluate; //主观评价
+    uint8_t	    HRRecovery;         //心率恢复率
+    #ifdef COD 
+	uint16_t	RiseHeight;         //上升高度
+	uint16_t	DropHeight;         //下降高度
+	#else
+	uint16_t	frequency;          //平均步频
+	uint16_t	RiseHeight;         //上升高度
+	#endif
+	
+}RunningDetailStr;
+
+typedef struct
+{
+	uint32_t	Steps;              //步数
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Speed;              //速度
+	uint16_t	OptimumSpeed;       //最佳速度
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+	uint8_t 	AnaerobicEffect;    //无氧效果
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+	uint16_t 	RecoveryTime;       //恢复时间
+	uint8_t 	SubjectiveEvaluate; //主观评价
+    uint8_t	    HRRecovery;          //心率恢复率
+	uint16_t	frequency;          //平均步频
+}WalkingDetailStr;
+
+typedef struct
+{
+	uint32_t	Steps;              //步数
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Speed;              //垂直速度
+	#ifdef COD
+	uint16_t	OptimumSpeed;       //最佳速度
+	#else
+	uint16_t	OptimumSpeed;       //最佳速度//uint16_t	Reserve1;           //保留1
+	#endif
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+	uint8_t 	AnaerobicEffect;    //无氧效果
+	#ifdef COD 
+	int16_t     MaxAlt;        //最高海拔
+	int16_t	    Reserve2;           //保留1
+	uint32_t 	Reserve[4];
+	#else
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+	#endif
+	uint16_t 	RecoveryTime;       //恢复时间
+	uint8_t 	SubjectiveEvaluate; //主观评价
+	uint8_t	    HRRecovery;          //心率恢复率
+	uint16_t	RiseHeight;         //上升高度
+	uint16_t	DropHeight;         //下降高度
+	
+}ClimbingDetailStr;
+
+typedef struct
+{
+	uint32_t	Steps;              //步数
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Speed;              //平均速度
+	uint16_t	OptimumSpeed;       //最佳速度
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+	uint8_t 	AnaerobicEffect;    //无氧效果
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+	uint16_t 	RecoveryTime;       //恢复时间
+	uint8_t 	SubjectiveEvaluate; //主观评价
+	uint8_t	    HRRecovery;          //心率恢复率
+	uint16_t	RiseHeight;         //上升高度
+	uint16_t	DropHeight;         //下降高度
+
+}CrosscountryDetailStr;
+
+typedef struct
+{
+	uint32_t	Cadence;            //踏频
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Speed;              //平均速度
+	uint16_t	OptimumSpeed;       //最佳速度
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+	uint8_t 	AnaerobicEffect;    //无氧效果
+	#ifdef COD 
+	int16_t     MaxAlt;        		//最高海拔 (单位 m)
+	int16_t	    RiseAlt;           //海拔上升，终点海拔-起点海拔 (单位 m)
+	uint32_t 	UphillDistance;     //上坡里程(实际单位 cm) 
+	uint32_t 	Reserve[3];
+	#else
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+	#endif
+	uint16_t 	RecoveryTime;       //恢复时间
+	uint8_t 	SubjectiveEvaluate; //主观评价
+	uint8_t	    HRRecovery;          //心率恢复率
+	uint16_t	RiseHeight;         //上升高度
+	uint16_t	DropHeight;         //下降高度
+
+}CyclingDetailStr;
+
+typedef struct
+{
+	uint32_t	Strokes;             //划数
+	uint32_t	Distance;           //距离
+	uint32_t	Calorie;            //卡路里
+	uint16_t	Speed;              //平均配速
+	uint16_t	Swolf;              //平均swolf
+	uint8_t 	AvgHeart;           //平均心率
+	uint8_t 	MaxHeart;           //最大心率
+	uint8_t 	AerobicEffect;      //有氧效果
+#ifdef COD 
+	uint8_t pool_length;   //泳池长度,新加需要赋值
+#else
+	uint8_t 	AnaerobicEffect;    //无氧效果
+#endif
+	uint32_t 	HeartRateZone[5];   //心率区间时间
+#ifdef COD 
+	uint16_t laps;//趟数,新加需要赋值
+#else
+	uint16_t 	RecoveryTime;       //恢复时间
+#endif
+	uint8_t 	SubjectiveEvaluate; //主观评价
+	uint8_t 	HRRecovery;         //心率恢复率
+	uint16_t	Frequency;          //平均划频
+	uint8_t 	Stroke;             //泳姿
+}SwimmingDetailStr;
+
+#if defined WATCH_SPORT_EVENT_SCHEDULE
+#define SPORT_EVENT_BEFORE_BYTE  (100)//sport_event赛事赛段在活动结构体中前面的字节数
+#define SPORT_EVENT_ID_TO_LAST_BYTE    (26)//64字节中赛事ID后有的字节数
+#define SPORT_EVENT_SCHEDULE_NUM_MAX   (15)//如果赛程超过15,重新开启新赛事
+/* 
+针对越野跑等赛事赛程定义(触地时间8字节)--一共使用了21bit
+*/
+typedef struct{
+	union UEvent
+	{ 
+		uint32_t val;
+		struct
+		{
+				uint32_t Year:6;        //年
+				uint32_t Month:4;       //月
+				uint32_t Day:5;         //日
+				uint32_t Hour:5;        //时
+				uint32_t Minute:6;      //分 
+				uint32_t Second_Start:6;        //秒   开始运动时间的秒
+				uint32_t Second_End:6;    //秒   结束运动时间的秒
+				uint32_t Shedule_Nums:4;   //赛程ID 1-15表示赛段
+				uint32_t Event_Status:1;   //赛事状态 0为赛事结束 1为赛事进行中
+				uint32_t Reserved:21;     //预留
+		}bits;
+	}U_EventSport;
+}SportEventStr;
+typedef struct{
+	SportEventStr event_str;//具体信息
+	int64_t event_id;//赛事ID
+	uint32_t sport_type;//赛事活动类型
+	uint8_t nums;//赛程数量 
+	uint8_t status;//赛事状态
+	uint8_t total_nums;//赛事总赛程数
+}SportEventStatusStr;
+typedef struct{
+	SportEventStatusStr schedule;//赛事基本状态
+	uint32_t total_distance;//累计距离
+	uint32_t total_time;//累计时间
+	uint32_t total_avg_pace;//累计配速
+}SportScheduleCalStr;//赛段状态累计
+extern bool is_sport_type_valid(uint32_t type);
+extern bool is_sport_status_str(SportEventStatusStr m_str);
+extern SportEventStatusStr get_sport_event_schedule_number(uint32_t m_type);
+extern SportScheduleCalStr get_sport_event_detail_total(SportEventStatusStr m_sport_event);
+extern int64_t get_sport_event_id(SportEventStr str);
+extern bool is_sport_event_schedule_valid(SportEventStatusStr m_sport_event_str);
+#endif
+typedef struct{
+	uint8_t	Activity_Type;     				//活动类型  A1-B2分别对应跑步/健走/马拉松/游泳/室内跑/越野跑/徒步越野/登山/骑行/铁人三项游泳/铁人三项骑行/铁人三项跑步 ...
+	uint8_t	Activity_Index;	   				//活动序号  从1开始递增，活动被删除后，序号不背删除，保留的活动保持原序号，新的活动继续往后递增
+	rtc_time_t  Act_Start_Time;  			//活动开始时间
+	rtc_time_t	Act_Stop_Time;   			//活动结束时间
+	uint16_t	CircleDistance;             //计圈距离
+	uint32_t	ActTime;                    //运动时长
+	uint32_t	Steps_Start_Address;		//计步数据开始地址
+	uint32_t	Steps_Stop_Address;			//计步数据结束地址
+	uint32_t	HeartRate_Start_Address;	//心率数据开始地址
+	uint32_t	HeartRate_Stop_Address;		//心率数据结束地址
+	uint32_t	Pressure_Start_Address;		//气压数据开始地址
+	uint32_t	Pressure_Stop_Address;		//气压数据结束地址
+	uint32_t	GPS_Start_Address;			//GPS数据开始地址
+	uint32_t	GPS_Stop_Address;			//GPS数据结束地址
+	uint32_t	Distance_Start_Address;		//距离数据开始地址
+	uint32_t	Distance_Stop_Address;		//距离数据结束地址
+	uint32_t	Energy_Start_Address;     	//热量数据起始地址
+	uint32_t	Energy_Stop_Address;     	//热量数据结束地址
+	uint32_t	Speed_Start_Address;     	//速度数据起始地址
+	uint32_t	Speed_Stop_Address;     	//速度数据结束地址
+	uint32_t	DistancePoint_Start_Address;//距离标点开始地址
+	uint32_t	DistancePoint_Stop_Address;	//距离标点结束地址
+	uint32_t	CircleTime_Start_Address;   //计圈时间起始地址
+	uint32_t	CircleTime_Stop_Address;    //计圈时间结束地址
+#ifdef COD
+	uint32_t    cod_id;				 //记录ID，唯一的标明一条记录，自增。到最大值后+1回到0。
+	uint32_t 	half_marathon_time;    //半马时间，不包括暂停，s
+    uint32_t 	full_marathon_time;    //全马时间，不包括暂停，s
+	uint32_t 	cod_version;              //运动记录时固件版本号(注意不是上传时版本号),大版本
+	uint32_t 	agps_update_time;		 //离线星历更新时间戳s，如果没有离线星历，填2018年1月1日0时0分0秒
+	uint32_t 	reserve;
+#else
+	uint32_t	VerticalSize_Start_Address; //垂直幅度起始地址
+	uint32_t	VerticalSize_Stop_Address;  //垂直幅度结束地址
+#if defined WATCH_SPORT_EVENT_SCHEDULE
+	SportEventStr sport_event;//赛事赛段数据
+#else
+	uint32_t	TouchDown_Start_Address;    //触地时间起始地址
+	uint32_t	TouchDown_Stop_Address;     //触地时间结束地址
+#endif
+	uint32_t    Pause_Start_Address;  		//暂停时间起始地址,//实际用于存储航迹打点数据
+	uint32_t	Pause_Stop_Address;   		//暂停时间结束地址,//实际用于存储航迹打点数据
+#endif
+	union   Activity_Details_U
+	{
+		uint8_t						Dat[ACTIVITY_DETAILS_DATA_SIZE]; //确定占据空间
+		CommonDetailStr			    CommonDetail;     //公共数据结构
+		RunningDetailStr			RunningDetail;     //跑步，马拉松,室内跑，铁人三项跑步
+        WalkingDetailStr			WalkingDetail;     //健走
+		ClimbingDetailStr			ClimbingDetail;    //登山
+		CrosscountryDetailStr       CrosscountryDetail;//越野跑、徒步越野
+		CyclingDetailStr			CyclingDetail;     //骑行，铁人三项骑行
+		SwimmingDetailStr		    SwimmingDetail;    //游泳，铁人三项游泳
+	}ActivityDetails;
+} ActivityDataStr;//最大181字节
+
+extern ActivityDataStr  ActivityData,ActivityRecordData,ActivityRecordDataDown;
+
+typedef struct
+{	
+	uint8_t		Date;
+	uint8_t		Month;
+	uint8_t		Year;
+	uint8_t		DayIndex;			//索引号，记录活动处于哪一天	
+	uint8_t		ActivityType;		//活动类型
+	uint8_t		ActivityIndex;		//活动序号
+}TrainRecordStr;
+
+typedef struct
+{	
+	rtc_time_t  Pause_Start_Time;  			//暂停开始时间
+	rtc_time_t  Pause_Stop_Time;   			//暂停结束时间
+
+}PauseTimeStr;
+
+enum
+{
+	CONTINUE_LATER_TYPE_NONE = 0U,			//正常运动类型，不属于稍后继续运动
+	CONTINUE_LATER_TYPE_SPORT,				//基础运动稍后继续类型
+	CONTINUE_LATER_TYPE_TRAIN_PLAN,			//训练计划稍后继续类型
+	CONTINUE_LATER_TYPE_NAVIGATION,			//导航稍后继续类型
+};
+
+typedef struct
+{
+	ScreenState_t ScreenStateSave;		//保存屏幕状态
+	ScreenState_t SportType;    //稍后继续保存类型
+	uint8_t ContinueLaterType;			//稍后继续类型
+}ContinueLaterDataStr;
+
+/*
+0x00200000—0x00277FFF
+每个点数据为8字节，经度和纬度各占4字节，浮点数。经度在前，东经为正，西经为负，南纬为正，北纬为负。
+总共2份共享轨迹，每份共享轨迹单独占用240K。2份空间连续。航迹标点轨迹存储在前，普通共享轨迹点存储在后。
+数据头格式为：编号（1字节，B0-B9）+名称（16字节） +航迹标点起始地址（4字节）+航迹标点结束地址（4字节）
++共享GPS数据起始地址（4字节）+共享 GPS数据结束地址（4字节）+活动类型（1字节）+距离（4字节，单位：米）++保留10字节(对齐)+轨迹数据(数据结构头后就是数据)
+
+*/
+#if defined WATCH_SPORT_NEW_CLOUD_NAVIGATION
+#define SHARE_TRACK_START_ADDR							(0x00200000)
+#define ONE_SHARED_TRACK_SIZE               (80*1024)
+#define SHARED_TRACK_NUM_MAX                (6)
+#define SPORT_NEW_CLOUD_DISTINGUISH_SIGN_VALUE   (0xB5B5B5B5)
+typedef struct __attribute__((packed))
+{
+	uint8_t Number;		            //共享轨迹编号
+	char Name[16];		            //共享轨迹名称
+	uint32_t point_start_address;	//航迹标点起始地址
+	uint32_t point_end_address;		//航迹标点结束地址
+	uint32_t gps_start_address;		//共享GPS数据起始地址
+	uint32_t gps_end_address;       //共享 GPS数据结束地址
+	uint8_t	Activity_Type;          //活动类型
+	uint32_t diatance;              //距离
+	uint8_t old_special_value;      //旧版云迹导航APP端标记用 A5 修改轨迹点精度损失问题,协议版本号中的蓝牙版本号大于4时，传0xA5标识支持双精度
+	uint32_t new_sign_value;        //区分新旧云迹导航 新的默认值0xB5B5B5B5
+	char reserve[95];                                 
+}ShareTrackStr;
+extern bool is_has_sport_new_cloud_navigation(uint8_t sport_type);
+#else
+#define SHARE_TRACK_START_ADDR							(0x00200000)
+#define ONE_SHARED_TRACK_SIZE               (240*1024)
+#define SHARED_TRACK_NUM_MAX                (2)
+typedef struct __attribute__((packed))
+{
+	uint8_t Number;		            //共享轨迹编号
+	char Name[16];		            //共享轨迹名称
+	uint32_t point_start_address;	//航迹标点起始地址
+	uint32_t point_end_address;		//航迹标点结束地址
+	uint32_t gps_start_address;		//共享GPS数据起始地址
+	uint32_t gps_end_address;       //共享 GPS数据结束地址
+	uint8_t	Activity_Type;          //活动类型
+	uint32_t diatance;              //距离
+	char reserve[100];                                 
+}ShareTrackStr;
+#endif
+//读flash获取运动数据，返回数据结构，用于表示返回结果
+typedef struct {
+	uint32_t address0;
+	uint32_t address1;
+	uint8_t number;
+}ActitivyDataResult_s;
+extern ShareTrackStr ShareTrack[SHARED_TRACK_NUM_MAX]; 
+
+extern uint8_t loadflag;
+#ifdef COD
+typedef struct  __attribute__((packed)){
+	uint8_t accuracy;
+	uint8_t point_type;
+	int16_t altitude;
+	uint32_t timestamp; //时间戳 s
+	int32_t Lon;
+	int32_t Lat;
+}GpspointStr;
+
+typedef enum{
+    COD_GPS_POINT_NORMAL = 0,     //普通点
+    COD_GPS_POINT_PAUSE,          //暂停点
+    COD_GPS_POINT_RESUME,         //恢复点
+    COD_GPS_POINT_PAUSE_NO_GPS,   //无GPS信息的暂停点
+    COD_GPS_POINT_VIRTUAL,        //虚拟点
+} cod_gps_point_type;
+
+typedef struct {
+
+	
+	double Lon;
+	double Lat;
+}gps_point_str;
+
+
+#endif
+
+
+
+//航迹标点
+#define TRACK_MARK_NUM_MAX   (20)
+
+#if defined WATCH_SPORT_NEW_CLOUD_NAVIGATION
+typedef struct {
+    float lon; //GPS点经度
+    float lat; //GPS点纬度
+}GPS_Str;
+typedef struct {
+    float lon; //标记点经度
+    float lat; //标记点纬度
+    char Name[16];//标记点名称
+		uint16_t gps_index;//标记点 在GPS点中的位置
+	  uint8_t  close_time_index;//关门时间的序号(1...)
+	  uint8_t  close_time_hour;//关门时间的时
+		uint8_t  close_time_minute;//关门时间的分
+		uint8_t  reserved[3];//预留
+}TrackMarkStr;
+typedef struct {
+	TrackMarkStr track;//获取的云迹导航中标记点信息
+	uint8_t is_close_time_valid;//关门时间是否有效 0 无效 1有效
+}SportTrackMarkDataStr;
+extern SportTrackMarkDataStr g_track_mark_data;//关门时间
+extern bool is_sport_type_cloud_navigation_valid(uint8_t sport_type);
+extern bool is_sport_has_close_time(uint8_t num,uint8_t sport_type);
+#else
+typedef struct {
+    float lon;
+    float lat;
+    char Name[16];   
+}TrackMarkStr;
+#endif
+
+extern TrackMarkStr TrackMark[TRACK_MARK_NUM_MAX]; 
+extern uint8_t TrackMarkNums;	//航迹标点个数
+extern uint8_t TrackMarkIndex;	//航迹标点索引
+
+typedef struct  
+{										    
+	double dlat;
+	double dlon;
+
+}LatLng; 
+#define MAX_RECORD_DAY    (7)
+#define MAX_NUM_ACTIVITY_DATA    (40)
+#if defined(WATCH_AUTO_BACK_HOME)
+/*无数据刷新页面超过10分钟无任何操作（无按键操作）返回待机界面 状态展示*/
+typedef struct
+{
+	bool status;//false无自动返回动作
+	uint32_t screen_before_index;
+  am_hal_rtc_time_t before_time;
+}AutoBackScreenStr;
+extern void set_m_AutoBackScreen(AutoBackScreenStr str);
+extern AutoBackScreenStr get_m_AutoBackScreen(void);
+#endif
+extern uint32_t store_gps_nums ;//gps存储点顺序
+extern uint32_t dot_track_nums ;//航迹打点个数；
+extern uint8_t dottrack_draw_time;
+extern uint8_t dottrack_out_time;	//航迹打点到上限显示次数
+extern uint8_t dottrack_nogps_time;//航迹打点gps没有定位显示次数
+
+
+extern ContinueLaterDataStr ContinueLaterDataSave;
+
+extern TrainRecordStr TrainRecord[2];
+extern PauseTimeStr PauseTime;
+
+extern uint8_t IS_SPORT_CONTINUE_LATER;  //判断是否位运动稍后继续标记
+extern bool accessory_heartrate_status;//心率配件连接状态
+extern bool accessory_cycling_cadence_status;//踏频连接状态
+
+extern uint8_t IsHeartSportMode(void);
+
+extern bool IsSportMode(ScreenState_t index);
+extern bool IsSportReady(ScreenState_t index);
+
+extern void SetSubjectiveEvaluate(uint8_t feel);
+
+extern void	Store_StepData( uint32_t * p_step );
+extern void Store_HeartRateData( uint8_t *hdr_value );
+#ifdef COD 
+extern void Store_KiloMeter(uint32_t now_distence,uint32_t sec);
+extern void Stores_Stroke(uint8_t type,uint8_t laps);
+extern void  Store_cod_StepData( uint32_t * p_step,uint32_t *time);
+extern void Store_cod_HeartRateData( uint8_t *hdr_value ,uint32_t *time );
+#else
+extern void Store_PressureData(int32_t *pres,float *alt);
+#endif
+extern void Store_DistanceData( uint32_t *p_dis  );
+extern void Store_EnergyData( uint32_t *caloriesValue);
+extern void Store_SpeedData( uint16_t * p_speed );
+extern void Store_AuotCirclle(uint32_t now_circledistance,uint16_t goal_circledistance,uint32_t sec,uint8_t swsport);
+extern void Store_DistancePointData(int32_t Lon,int32_t Lat,uint8_t swsport);
+#ifndef WATCH_GPS_HAEDWARE_ANALYSIS_INFOR
+
+extern void Store_CircleTimeData(uint32_t sec,uint8_t swsport);
+#endif
+extern void Store_PauseTimeData(PauseTimeStr *pause);
+extern void Store_DotTrack(uint32_t nums);
+
+#ifdef COD 
+extern void cod_store_gpsdata(uint8_t pausesta,int16_t *altitude,float *RiseHeight,float *RiseDrop,uint8_t * Risestate,int16_t *RiseAlt,ActivityDataStr*sport_type_data);
+extern void cod_bubble_sort(float *data, int n);
+extern void Store_GPSData(GpspointStr gps_point,uint32_t distance);
+
+#else
+extern void Store_GPSData(int32_t Lon,int32_t Lat);
+#endif
+extern void Store_OrgGPSData(int32_t Lon, int32_t Lat, uint8_t status, uint8_t g_sn, uint8_t bd_sn,uint8_t possl_gpsnum,uint8_t possl_bdnum);
+
+#if defined STORE_ORG_DATA_TEST_VERSION
+
+extern void store_orggps_data(int32_t Lon, int32_t Lat, int32_t step, int32_t time,int32_t dis,int32_t speed);
+
+
+
+extern void Set_StoreData_Flag(uint8_t liv_storedataflag);
+extern void Store_OrgData_Start(void);
+extern void Store_OrgAxisData(int16_t liv_x, int16_t liv_y, int16_t liv_z);
+extern void Store_OrgPresData(int32_t liv_pres, int32_t liv_height);
+extern void Store_OrgHeartRateData(uint8_t liv_heartrate);
+#endif
+
+#if defined STORE_ALT_TEST_VERTION
+extern void Store_AltRelateData(float *Press_alt,int32_t *Gps_alt,uint8_t *Gps_sn,uint16_t *Gps_hdop);
+#endif
+
+
+
+
+extern uint8_t Read_ActivityData(uint32_t addr1,uint32_t addr2);
+extern void Set_TrainRecordNum(uint8_t Num);
+extern uint8_t Get_TrainRecordNum(void);
+extern void Set_TrainRecordSelect(uint8_t Select);
+extern uint8_t Get_TrainRecordSelect(void);
+extern void Set_TrainRecordPage(uint8_t Page);
+extern uint8_t Get_TrainRecordPage(void);
+
+extern void Remind_Sport_Init(void);
+extern void Remind_Heartrate(uint8_t now_heart,uint8_t swsport);
+extern void Remind_GoalKcal(uint16_t now_kcal,uint16_t goal_kcal,uint8_t swsport);
+extern void Remind_GoalCircle(uint16_t now_circle,uint16_t goal_circle,uint8_t swsport);
+extern void Remind_GoalTime(uint16_t now_time,uint16_t goal_time,uint8_t swsport);
+extern void Remind_GoalDistance(uint16_t now_distance,uint16_t goal_distance,uint8_t swsport);
+extern uint8_t Remind_CircleDistance(uint16_t now_distance,uint16_t goal_distance,uint8_t swsport);
+extern void Remind_Altitude (uint16_t now_altitude,uint16_t goal_altitude,uint8_t swsport);
+extern void Remind_Speed (uint16_t now_speed,uint16_t goal_speed,uint8_t swsport);
+extern void Remind_Pace (uint16_t now_pace,uint16_t goal_pace,uint8_t swsport);
+extern void Remind_DailyKcal(uint32_t daily_kcal_now,uint32_t daily_kcal_goal);
+extern void Remind_DailyStep(uint32_t daily_step_now,uint32_t daily_step_goal);
+extern void remind_autocircle_display(void);
+	
+extern void Set_IsCompleteTodayTrainPlan(uint8_t isComplete);
+extern uint8_t Get_TrainPlanType(TrainPlanType type);
+extern uint8_t Get_IsCompleteTodayTrainPlan(void);
+extern void Remind_TodayTrainPlan (void);
+extern void Remind_TrainPlan_Complete(void);
+extern void Set_IsTrainPlanOnGoing(bool flag);
+extern bool Get_IsTrainPlanOnGoing(void);
+extern uint8_t Get_TrainPlanFlag(void);
+extern void Remind_Pace_TrainPlan (uint16_t now_pace,uint16_t now_distance,uint16_t up_pace,uint16_t down_pace);
+extern uint8_t Get_IsCompleteBothTodayTrainPlan(TrainPlanType type);
+extern uint16_t Get_Intervals_TrainPlan_Single_Distance(void);
+
+extern void InitTrack(void);
+extern void LastTrackPoint(void);
+extern void MoveTrackCenter(void);
+extern void StoreTrackPoint(void);
+extern void DrawTrack(void);
+extern void SaveGpsToXY(void);
+extern void Drawsport_arrows(void);
+extern void DrawSaveTrack(void);
+extern void TrackBackFlag(void);
+
+extern void InitLoadTrack(void);
+extern void LoadMotiontTrail(uint32_t startaddress,uint32_t endaddress);
+extern void LoadNavigation(uint32_t startaddress,uint32_t endaddress);
+extern void DrawLoadTrack(void);
+extern void DrawLoadALLTrack(void);
+
+extern void load_track_mark(uint32_t startaddress,uint32_t endaddress);
+extern void draw_track_mark(void);
+extern uint8_t min_track_mark(int32_t lon,int32_t lat);
+
+extern uint32_t ActivityAddressForwardLookup(uint32_t address_s);
+extern ActitivyDataResult_s ActivityDataForwardLookup(uint32_t address_s, ActivityDataStr *sport_data_rec);
+extern ActitivyDataResult_s ActivityDataReverseLookup(uint32_t address_s, ActivityDataStr *sport_data_rec);
+
+extern ActitivyDataResult_s ActivityDataResult;
+extern uint8_t g_ActivityData_Total_Num;
+extern ActivityDataStr Sport_Record[2];
+extern bool IsActivityDataValid(ActivityDataStr *actdata);
+extern void DeleteActivityRecord(uint32_t addr);
+extern void Com_Flash_Common_Sport(void);
+extern uint32_t GetTriathionGPSEndAddress(uint32_t startAddr);
+extern bool IsTriathlonMode(ScreenState_t index);
+extern uint8_t m_InvertFlagHead;
+extern uint8_t m_InvertFlagTail;
+extern bool get_trainplan_valid_flag(void);
+extern bool is_sport_record_detail_screen(uint32_t m_screen);
+#if defined(WATCH_SPORT_RECORD_TEST)
+//查询运动记录方式更改
+typedef struct{
+	uint32_t address;//该条运动记录存放的地址
+	rtc_time_t start_time;//该条运动记录开始时间
+}SportRecordYyMmSsStr;
+
+typedef struct{
+	uint8_t	Activity_Type;     				//活动类型  A1-B2分别对应跑步/健走/马拉松/游泳/室内跑/越野跑/徒步越野/登山/骑行/铁人三项游泳/铁人三项骑行/铁人三项跑步 ...
+	uint8_t	Activity_Index;	   				//活动序号  从1开始递增，活动被删除后，序号不背删除，保留的活动保持原序号，新的活动继续往后递增
+	rtc_time_t  Act_Start_Time;  			//活动开始时间
+}ActivityTitleStr;
+
+extern SportRecordYyMmSsStr s_sport_record_select_str[MAX_NUM_ACTIVITY_DATA*MAX_RECORD_DAY];
+extern uint32_t search_sport_record(void);
+extern bool get_sport_detail_record(uint32_t key_index_first,uint32_t key_index_second);
+#endif
+extern LatLng dLatLng;//纠偏后经纬度
+extern void transform(double wgLon,double wgLat);
+#if defined(WATCH_AUTO_BACK_HOME)
+extern bool is_auto_back_home(ScreenState_t index);
+#endif
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

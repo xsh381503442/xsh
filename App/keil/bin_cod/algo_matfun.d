@@ -1,0 +1,17 @@
+.\bin_cod\algo_matfun.o: ..\user\algo\algo_MatFun.c
+.\bin_cod\algo_matfun.o: ..\user\algo\algo_MatFun.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\assert.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\math.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+.\bin_cod\algo_matfun.o: ..\third_party\FreeRTOS\Source\include\FreeRTOS.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+.\bin_cod\algo_matfun.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\bin_cod\algo_matfun.o: ..\user\app\FreeRTOSConfig.h
+.\bin_cod\algo_matfun.o: ..\user\app\watch_config.h
+.\bin_cod\algo_matfun.o: ..\third_party\FreeRTOS\Source\include\projdefs.h
+.\bin_cod\algo_matfun.o: ..\third_party\FreeRTOS\Source\include\portable.h
+.\bin_cod\algo_matfun.o: ..\third_party\FreeRTOS\Source\include\deprecated_definitions.h
+.\bin_cod\algo_matfun.o: ..\third_party\FreeRTOS\Source\portable\Keil\AMapollo2\portmacro.h
+.\bin_cod\algo_matfun.o: ..\third_party\FreeRTOS\Source\include\mpu_wrappers.h

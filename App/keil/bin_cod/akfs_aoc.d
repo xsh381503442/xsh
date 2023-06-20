@@ -1,0 +1,12 @@
+.\bin_cod\akfs_aoc.o: ..\user\lib\Compass\AKFS_AOC.c
+.\bin_cod\akfs_aoc.o: ..\user\lib\Compass\AKFS_AOC.h
+.\bin_cod\akfs_aoc.o: ..\user\lib\Compass\AKFS_Device.h
+.\bin_cod\akfs_aoc.o: D:\keil\ARM\ARMCC\Bin\..\include\float.h
+.\bin_cod\akfs_aoc.o: ..\user\lib\Compass\AKFS_Configure.h
+.\bin_cod\akfs_aoc.o: ..\user\app\main.h
+.\bin_cod\akfs_aoc.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\bin_cod\akfs_aoc.o: ..\user\lib\Compass\AKFS_Math.h
+.\bin_cod\akfs_aoc.o: D:\keil\ARM\ARMCC\Bin\..\include\math.h
+.\bin_cod\akfs_aoc.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+.\bin_cod\akfs_aoc.o: D:\keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\bin_cod\akfs_aoc.o: D:\keil\ARM\ARMCC\Bin\..\include\stdio.h

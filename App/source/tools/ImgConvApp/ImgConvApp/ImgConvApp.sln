@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImgConvApp", "ImgConvApp\ImgConvApp.csproj", "{090FBD51-310B-4790-9B06-D620FBD727CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{090FBD51-310B-4790-9B06-D620FBD727CD}.Debug|x86.ActiveCfg = Debug|x86
+		{090FBD51-310B-4790-9B06-D620FBD727CD}.Debug|x86.Build.0 = Debug|x86
+		{090FBD51-310B-4790-9B06-D620FBD727CD}.Release|x86.ActiveCfg = Release|x86
+		{090FBD51-310B-4790-9B06-D620FBD727CD}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,574 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.14.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 123 123, 123, LIC=2TTGK-Z48FR-044SQ-N1J18-QX6R8-4RUFB
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.14.0.0
+Toolchain Path:  D:\keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 1 (build 106)
+Assembler:       Armasm.exe V5.05 update 1 (build 106)
+Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
+Library Manager: ArmAr.exe V5.05 update 1 (build 106)
+Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
+CPU DLL:         SARMCM3.DLL V5.14.0.0
+Dialog DLL:      DCM.DLL V1.13.1.0
+Target DLL:      Segger\JL2CM3.dll V2.99.13.0
+Dialog DLL:      TCM.DLL V1.14.4.0
+ 
+<h2>Project:</h2>
+E:\god_temp_1270\App\keil\yzl.uvprojx
+Project File Date:  03/11/2021
+
+<h2>Output:</h2>
+Build target 'COD'
+compiling main.c...
+compiling rtos.c...
+..\user\app\rtos.c(270): warning:  #223-D: function "mode_power_off_store_set_value" declared implicitly
+        mode_power_off_store_set_value();
+..\user\app\rtos.c: 1 warning, 0 errors
+compiling bsp.c...
+compiling bsp_iom.c...
+compiling bsp_rtc.c...
+compiling bsp_timer.c...
+compiling bsp_uart.c...
+compiling isr_gpio.c...
+compiling isr_ctimer.c...
+compiling isr_iom.c...
+compiling isr_uart.c...
+compiling isr_clkgen.c...
+compiling drv_lcd.c...
+..\user\driver\drv_lcd.c(33): warning:  #177-D: variable "m_enableEnb" was declared but never referenced
+  static bool m_enableEnb = false;
+..\user\driver\drv_lcd.c: 1 warning, 0 errors
+compiling drv_key.c...
+compiling drv_gt24l24.c...
+compiling drv_motor.c...
+compiling drv_ublox.c...
+..\user\driver\drv_ublox.c(204): warning:  #223-D: function "set_m_is_pc" declared implicitly
+                set_m_is_pc(false);
+..\user\driver\drv_ublox.c(274): warning:  #223-D: function "bsp_uart_disable" declared implicitly
+                  bsp_uart_disable(0);
+..\user\driver\drv_ublox.c: 2 warnings, 0 errors
+compiling drv_ms5837.c...
+compiling drv_buzzer.c...
+compiling drv_spiflash.c...
+compiling drv_light.c...
+..\user\driver\drv_light.c(40): warning:  #223-D: function "wait_lcd_light_te_high" declared implicitly
+                        wait_lcd_light_te_high();
+..\user\driver\drv_light.c: 1 warning, 0 errors
+compiling drv_lis3mdl.c...
+compiling drv_battery.c...
+compiling drv_pc.c...
+compiling drv_intFlash.c...
+compiling drv_ble.c...
+compiling drv_extFlash.c...
+compiling LSM6DSL_ACC_GYRO_driver.c...
+compiling drv_lsm6dsl.c...
+..\user\driver\drv_lsm6dsl.c(145): warning:  #550-D: variable "ui32Status" was set but never used
+      am_hal_iom_status_e ui32Status;
+..\user\driver\drv_lsm6dsl.c: 1 warning, 0 errors
+compiling drv_alarm.c...
+compiling drv_hrt.c...
+..\user\driver\drv_hrt.c(149): warning:  #223-D: function "IsHeartSportMode" declared implicitly
+        int16_t ret = Si117x_Start(OHRL_GetLEDcurrent(),IsHeartSportMode());
+..\user\driver\drv_hrt.c(213): warning:  #223-D: function "IsHeartSportMode" declared implicitly
+        int16_t ret = Si117x_Start(OHRL_GetLEDcurrent(),IsHeartSportMode());
+..\user\driver\drv_hrt.c(288): warning:  #223-D: function "ble_uart_response_application_real_time_log_trains" declared implicitly
+                        ble_uart_response_application_real_time_log_trains(&hrt_buf[0], index_nums *20);
+..\user\driver\drv_hrt.c(233): warning:  #177-D: function "sendData" was declared but never referenced
+  static void sendData(uint8_t *data, uint8_t len)
+..\user\driver\drv_hrt.c: 4 warnings, 0 errors
+compiling drv_rtc_rv8803.c...
+..\user\driver\drv_rtc_rv8803.c(147): warning:  #177-D: variable "subResult" was declared but never referenced
+        am_hal_iom_buffer(1) subResult ={0};
+..\user\driver\drv_rtc_rv8803.c: 1 warning, 0 errors
+compiling task_key.c...
+compiling task_gps.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\task\task_gps.c(1118): warning:  #177-D: variable "m_surplus_len" was declared but never referenced
+        int16_t m_surplus_len = 0;//统计超出gps_buf缓冲区大小的长度
+..\user\task\task_gps.c: 5 warnings, 0 errors
+compiling task_display.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\task\task_display.c(622): warning:  #223-D: function "drv_ms5837_data_get" declared implicitly
+                        drv_ms5837_data_get(&m_pres,&m_alt,&m_temp);
+..\user\task\task_display.c: 5 warnings, 0 errors
+compiling task_step.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\task\task_step.c(178): warning:  #550-D: variable "dataRawgyro" was set but never used
+    int16_t dataRawacc[3], dataRawgyro[3],data_temp_acc = 0,data_temp_gyro = 0;
+..\user\task\task_step.c(179): warning:  #177-D: variable "heart" was declared but never referenced
+    uint8_t group,data_len,heart;
+..\user\task\task_step.c(870): warning:  #223-D: function "drv_rtc_flag_reg_read" declared implicitly
+        rtc_hw_flag = drv_rtc_flag_reg_read();
+..\user\task\task_step.c: 7 warnings, 0 errors
+compiling task_hardware.c...
+compiling task_timer.c...
+compiling task_uart.c...
+compiling task_tool.c...
+compiling task_battery.c...
+..\user\task\task_battery.c(284): warning:  #177-D: variable "msg" was declared but never referenced
+                                DISPLAY_MSG  msg = {0,0};       
+..\user\task\task_battery.c: 1 warning, 0 errors
+compiling task_pc.c...
+..\user\task\task_pc.c(588): warning:  #69-D: integer conversion resulted in truncation
+        info.watch_face_4_index = 0x10000;
+..\user\task\task_pc.c: 1 warning, 0 errors
+compiling task_ble.c...
+..\user\task\task_ble.c(1519): warning:  #223-D: function "set_train_pause_time" declared implicitly
+           set_train_pause_time(); 
+..\user\task\task_ble.c(1596): warning:  #223-D: function "set_train_pause_time" declared implicitly
+                          set_train_pause_time();
+..\user\task\task_ble.c(1623): warning:  #223-D: function "set_train_pause_time" declared implicitly
+                        set_train_pause_time();
+..\user\task\task_ble.c(1676): warning:  #550-D: variable "req_num" was set but never used
+        uint8_t start,req_num;
+..\user\task\task_ble.c(2194): warning:  #223-D: function "set_train_pause_time" declared implicitly
+                  set_train_pause_time(); 
+..\user\task\task_ble.c(4156): warning:  #550-D: variable "last_activity_index" was set but never used
+        uint8_t year = 0,month = 0,day = 0,last_activity_index = 0;//模拟APP下发的开始查找时间
+..\user\task\task_ble.c(4355): warning:  #223-D: function "set_train_pause_time" declared implicitly
+                  set_train_pause_time(); 
+..\user\task\task_ble.c: 7 warnings, 0 errors
+compiling task_sport.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\task\task_sport.c(1533): warning:  #223-D: function "timer_timeout_back_stop" declared implicitly
+        timer_timeout_back_stop(false);
+..\user\task\task_sport.c(2382): warning:  #550-D: variable "temp_press" was set but never used
+        int32_t temp_press;
+..\user\task\task_sport.c(2401): warning:  #550-D: variable "temp_press" was set but never used
+        int32_t temp_press;
+..\user\task\task_sport.c(2434): warning:  #550-D: variable "cadenceminute" was set but never used
+        uint32_t cadenceminute; //一分钟平均踏频
+..\user\task\task_sport.c(2438): warning:  #550-D: variable "last_circle_dis" was set but never used
+        uint32_t last_circle_dis = 0;   //上圈距离
+..\user\task\task_sport.c(162): warning:  #550-D: variable "last_RiseHeight" was set but never used
+  static uint16_t last_RiseHeight;
+..\user\task\task_sport.c(2379): warning:  #177-D: function "task_sport_press" was declared but never referenced
+  static void task_sport_press(void)
+..\user\task\task_sport.c(2398): warning:  #177-D: function "task_climbing_press" was declared but never referenced
+  static void task_climbing_press(void)
+..\user\task\task_sport.c: 12 warnings, 0 errors
+compiling task_hrt.c...
+..\user\task\task_hrt.c(54): warning:  #550-D: variable "m_buffer_len" was set but never used
+  static uint32_t m_buffer_len = 0;
+..\user\task\task_hrt.c: 1 warning, 0 errors
+compiling time_progress.c...
+compiling time_notify.c...
+compiling timer_app.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\timer\timer_app.c(470): warning:  #223-D: function "set_train_pause_time" declared implicitly
+                                                set_train_pause_time(); 
+..\user\timer\timer_app.c(431): warning:  #177-D: variable "i" was declared but never referenced
+     int i;
+..\user\timer\timer_app.c: 6 warnings, 0 errors
+compiling timer_traceback.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\timer\timer_traceback.c: 4 warnings, 0 errors
+compiling mode_power_on.c...
+compiling mode_power_off.c...
+..\user\mode\mode_power_off.c(245): warning:  #223-D: function "gui_dfu_timer_stop" declared implicitly
+                        gui_dfu_timer_stop();
+..\user\mode\mode_power_off.c: 1 warning, 0 errors
+compiling gui_gps_test.c...
+compiling gui_hwt.c...
+compiling gui_time_calibration_test.c...
+compiling gui_post_watch_info.c...
+compiling gui.c...
+compiling gui_clockline.c...
+..\user\gui\gui_clockline.c(62): warning:  #177-D: variable "R" was declared but never referenced
+                uint8_t ang,R,q_buf[10];
+..\user\gui\gui_clockline.c: 1 warning, 0 errors
+compiling gui_dial.c...
+..\user\gui\gui_dial.c(1000): warning:  #188-D: enumerated type mixed with another type
+                word.size = dial->Date.dateStr.size;
+..\user\gui\gui_dial.c(1431): warning:  #177-D: variable "plan_flag" was declared but never referenced
+        uint8_t dnd_flag =0,alarm_flag=0,ble_flag=0,plan_flag=0;
+..\user\gui\gui_dial.c(2281): warning:  #188-D: enumerated type mixed with another type
+                        word.size = dial->Status.Type1.step.stepStr.size;
+..\user\gui\gui_dial.c(2718): warning:  #177-D: variable "pres" was declared but never referenced
+    float pres,alt,temp;
+..\user\gui\gui_dial.c(2718): warning:  #177-D: variable "alt" was declared but never referenced
+    float pres,alt,temp;
+..\user\gui\gui_dial.c(2718): warning:  #177-D: variable "temp" was declared but never referenced
+    float pres,alt,temp;
+..\user\gui\gui_dial.c(3225): warning:  #188-D: enumerated type mixed with another type
+                        word.size =  dial->Widget.dial_weather.d_weatherStr.size;
+..\user\gui\gui_dial.c: 7 warnings, 0 errors
+compiling gui_dfu.c...
+compiling gui_home.c...
+..\user\gui_home\gui_home.c(621): warning:  #550-D: variable "code" was set but never used
+        char *code;
+..\user\gui_home\gui_home.c(848): warning:  #223-D: function "timer_timeout_back_start" declared implicitly
+                                                timer_timeout_back_start();
+..\user\gui_home\gui_home.c: 2 warnings, 0 errors
+compiling gui_heartrate.c...
+compiling gui_step.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\gui_home\gui_step.c: 4 warnings, 0 errors
+compiling gui_VO2max.c...
+compiling gui_motionsrecord.c...
+compiling gui_notification.c...
+compiling gui_calories.c...
+..\user\gui_home\gui_calories.c(67): warning:  #550-D: variable "percent_calories" was set but never used
+        float percent_calories = 0;
+..\user\gui_home\gui_calories.c(419): warning:  #550-D: variable "caloriesTargetValue" was set but never used
+        uint32_t caloriesValue_sport = 0,caloriesValue_common = 0,caloriesTargetValue = 0;
+..\user\gui_home\gui_calories.c: 2 warnings, 0 errors
+compiling gui_lactate_threshold.c...
+..\user\gui_home\gui_lactate_threshold.c(176): warning:  #177-D: variable "str" was declared but never referenced
+    char str[5];
+..\user\gui_home\gui_lactate_threshold.c: 1 warning, 0 errors
+compiling gui_trainplan.c...
+compiling gui_recovery.c...
+compiling gui_tool.c...
+compiling gui_tool_calendar.c...
+..\user\gui_tool\gui_tool_calendar.c(76): warning:  #550-D: variable "flag" was set but never used
+  static uint8_t flag;//用于指示第一次进入天气详细界面
+..\user\gui_tool\gui_tool_calendar.c: 1 warning, 0 errors
+compiling gui_tool_ambient.c...
+compiling gui_tool_gps.c...
+..\user\gui_tool\gui_tool_gps.c(360): warning:  #550-D: variable "tmp_rtc_time" was set but never used
+          rtc_time_t tmp_rtc_time = {0};
+..\user\gui_tool\gui_tool_gps.c(2359): warning:  #177-D: function "gui_motion_trail_detail_options_paint" was declared but never referenced
+  static void gui_motion_trail_detail_options_paint(uint8_t index)
+..\user\gui_tool\gui_tool_gps.c: 2 warnings, 0 errors
+compiling gui_tool_compass.c...
+compiling gui_tool_stopwatch.c...
+compiling gui_tool_findphone.c...
+compiling gui_tool_countdown.c...
+..\user\gui_tool\gui_tool_countdown.c(294): warning:  #177-D: variable "str" was declared but never referenced
+        char str[10] = {0};
+..\user\gui_tool\gui_tool_countdown.c: 1 warning, 0 errors
+compiling gui_sport.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\gui_sport\gui_sport.c(1010): warning:  #223-D: function "timer_timeout_back_stop" declared implicitly
+                        timer_timeout_back_stop(false);
+..\user\gui_sport\gui_sport.c(2411): warning:  #550-D: variable "len" was set but never used
+                uint8_t len;
+..\user\gui_sport\gui_sport.c(2412): warning:  #177-D: variable "charlen" was declared but never referenced
+                uint8_t charlen;
+..\user\gui_sport\gui_sport.c(2622): warning:  #177-D: variable "charlen" was declared but never referenced
+                uint8_t charlen;
+..\user\gui_sport\gui_sport.c(2661): warning:  #550-D: variable "len" was set but never used
+                        uint8_t len;
+..\user\gui_sport\gui_sport.c(2662): warning:  #177-D: variable "charlen" was declared but never referenced
+                        uint8_t charlen;
+..\user\gui_sport\gui_sport.c(3260): warning:  #223-D: function "gui_sport_hike_track_paint" declared implicitly
+                                                 gui_sport_hike_track_paint();
+..\user\gui_sport\gui_sport.c(3329): warning:  #223-D: function "gui_sport_hike_track_paint" declared implicitly
+                                         gui_sport_hike_track_paint();
+..\user\gui_sport\gui_sport.c(6205): warning:  #177-D: variable "sec" was declared but never referenced
+                uint32_t sec = 0;
+..\user\gui_sport\gui_sport.c(11325): warning:  #223-D: function "set_train_pause_time" declared implicitly
+                                set_train_pause_time(); 
+..\user\gui_sport\gui_sport.c: 14 warnings, 0 errors
+compiling gui_run.c...
+compiling gui_sport_cycling.c...
+..\user\gui_sport\gui_sport_cycling.c(1053): warning:  #177-D: function "gui_sport_cycling_detail_track_paint" was declared but never referenced
+  static void gui_sport_cycling_detail_track_paint(void)
+..\user\gui_sport\gui_sport_cycling.c: 1 warning, 0 errors
+compiling gui_sport_crosscountry_hike.c...
+..\user\gui_sport\gui_sport_crosscountry_hike.c(1366): warning:  #177-D: variable "sec" was declared but never referenced
+                uint32_t sec = 0;
+..\user\gui_sport\gui_sport_crosscountry_hike.c: 1 warning, 0 errors
+compiling gui_climbing.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\gui_sport\gui_climbing.c: 4 warnings, 0 errors
+compiling gui_swimming.c...
+compiling gui_sport_triathlon.c...
+..\user\gui_sport\gui_sport_triathlon.c(157): warning:  #177-D: function "gui_sport_triathlon_swimming_1_heart" was declared but never referenced
+  static void gui_sport_triathlon_swimming_1_heart(uint8_t heart)
+..\user\gui_sport\gui_sport_triathlon.c(331): warning:  #177-D: function "gui_sport_triathlon_swimming_2_paint" was declared but never referenced
+  static void gui_sport_triathlon_swimming_2_paint(void)
+..\user\gui_sport\gui_sport_triathlon.c: 2 warnings, 0 errors
+compiling gui_crosscountry.c...
+..\user\gui_sport\gui_crosscountry.c(1078): warning:  #177-D: variable "sec" was declared but never referenced
+                        uint32_t sec = 0;
+..\user\gui_sport\gui_crosscountry.c(89): warning:  #177-D: variable "m_gui_crosscountry_cloud_navigation_shink" was declared but never referenced
+  static uint8_t m_gui_crosscountry_cloud_navigation_shink = 0;
+..\user\gui_sport\gui_crosscountry.c: 2 warnings, 0 errors
+compiling gui_sport_indoorrun.c...
+compiling gui_sport_walk.c...
+compiling gui_sport_marathon.c...
+compiling gui_menu.c...
+..\user\gui_menu\gui_menu.c(63): warning:  #223-D: function "gui_page_up" declared implicitly
+        gui_page_up(LCD_PERU);
+..\user\gui_menu\gui_menu.c(65): warning:  #223-D: function "gui_page_down" declared implicitly
+        gui_page_down(LCD_PERU);
+..\user\gui_menu\gui_menu.c(212): warning:  #177-D: variable "percent" was declared but never referenced
+        uint8_t percent;
+..\user\gui_menu\gui_menu.c(213): warning:  #177-D: variable "color" was declared but never referenced
+        uint8_t color;
+..\user\gui_menu\gui_menu.c(214): warning:  #177-D: variable "word" was declared but never referenced
+        SetWord_t word = {0};
+..\user\gui_menu\gui_menu.c: 5 warnings, 0 errors
+compiling gui_theme.c...
+compiling gui_time.c...
+compiling gui_sports_record.c...
+..\user\gui_menu\gui_sports_record.c(1122): warning:  #177-D: function "gui_triathlon_sport_detail_1_paint" was declared but never referenced
+  static void gui_triathlon_sport_detail_1_paint(uint8_t backgroundcolor)
+..\user\gui_menu\gui_sports_record.c: 1 warning, 0 errors
+compiling gui_accessory.c...
+compiling gui_system.c...
+..\user\gui_menu\gui_system.c(313): warning:  #177-D: variable "word" was declared but never referenced
+        SetWord_t word = {0};
+..\user\gui_menu\gui_system.c(38): warning:  #550-D: variable "m_gui_silent_index" was set but never used
+  static uint8_t m_gui_silent_index = 0;
+..\user\gui_menu\gui_system.c(44): warning:  #550-D: variable "m_gui_autolight_index" was set but never used
+  static uint8_t m_gui_autolight_index = 0;
+..\user\gui_menu\gui_system.c: 3 warnings, 0 errors
+compiling gui_watch_info.c...
+..\user\gui_menu\gui_watch_info.c(346): warning:  #550-D: variable "word" was set but never used
+        SetWord_t word = {0};
+..\user\gui_menu\gui_watch_info.c(46): warning:  #550-D: variable "m_gui_watch_info_index" was set but never used
+  static uint8_t m_gui_watch_info_index = 0;
+..\user\gui_menu\gui_watch_info.c(223): warning:  #177-D: function "watch_info_page_two" was declared but never referenced
+  static void watch_info_page_two(_boot_setting *boot_setting, _task_ble_info *task_ble_info)
+..\user\gui_menu\gui_watch_info.c: 3 warnings, 0 errors
+compiling gui_customized_sports.c...
+compiling gui_customized_tools.c...
+..\user\gui_menu\gui_customized_tools.c(138): warning:  #550-D: variable "index_value" was set but never used
+        uint32_t index_value;
+..\user\gui_menu\gui_customized_tools.c: 1 warning, 0 errors
+compiling gui_xt_ble_auth.c...
+compiling gui_notify_ble.c...
+..\user\gui_notify\gui_notify_ble.c(834): warning:  #177-D: variable "hdrRange" was declared but never referenced
+      uint8_t hdrRange,heart;
+..\user\gui_notify\gui_notify_ble.c: 1 warning, 0 errors
+compiling gui_notify_alarm.c...
+compiling gui_notify_app_msg.c...
+..\user\gui_notify\gui_notify_app_msg.c(60): warning:  #177-D: variable "i" was declared but never referenced
+        int i;
+..\user\gui_notify\gui_notify_app_msg.c: 1 warning, 0 errors
+compiling gui_notify_base_hdr.c...
+compiling gui_notify_bat.c...
+compiling gui_notify_sport.c...
+compiling gui_notify_train.c...
+compiling gui_notify_warning.c...
+compiling com_data.c...
+..\user\common\com_data.c(1451): warning:  #550-D: variable "m" was set but never used
+        uint8_t  n,m;
+..\user\common\com_data.c: 1 warning, 0 errors
+compiling com_sport.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\common\com_sport.c(1123): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                           alt = 0.5*(GetGpsAlt()/10) + 0.5*algo_last_press_and_altitude[1];//气压计异常时高度用GPS高度值代替
+..\user\common\com_sport.c(954): warning:  #550-D: variable "dis_limit" was set but never used
+         float dis_limit = 2.0,update_alt_rise=2.0;
+..\user\common\com_sport.c: 6 warnings, 0 errors
+compiling com_dial.c...
+compiling algo_hdr.c...
+compiling algo_time_calibration.c...
+compiling algo_sport.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\algo\algo_sport.c: 4 warnings, 0 errors
+compiling algo_trainplan.c...
+compiling algo_trackoptimizing.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\algo\algo_trackoptimizing.c(569): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+            if(rn_distance>=REMOVE_NOISE_DATA_DISTANCE_VALUE)
+..\user\algo\algo_trackoptimizing.c(806): warning:  #177-D: variable "i" was declared but never referenced
+     uint8_t i;
+..\user\algo\algo_trackoptimizing.c(1086): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                                   else if(lfv_gapdist >=(single_gpsdis_limit*temp_num*0.7))
+..\user\algo\algo_trackoptimizing.c(1134): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                                   else if(lfv_gapdist >=(single_gpsdis_limit*temp_num*0.7))
+..\user\algo\algo_trackoptimizing.c(1704): warning:  #177-D: variable "total_dst" was declared but never referenced
+        float total_dst = 0;
+..\user\algo\algo_trackoptimizing.c: 9 warnings, 0 errors
+compiling algo_trackjudge.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\algo\algo_trackjudge.c: 4 warnings, 0 errors
+compiling algo_sport_cycling.c...
+..\user\algo\algo_trackoptimizing.h(215): warning:  #1295-D: Deprecated declaration sport_over_or_restart - give arg types
+  void sport_over_or_restart();
+..\user\algo\algo_trackoptimizing.h(237): warning:  #1295-D: Deprecated declaration gps_raw_data_rn_receive - give arg types
+  extern void gps_raw_data_rn_receive();
+..\user\algo\algo_trackoptimizing.h(238): warning:  #1295-D: Deprecated declaration gps_rn_data_sm_receive - give arg types
+  extern void gps_rn_data_sm_receive();
+..\user\algo\algo_trackoptimizing.h(239): warning:  #1295-D: Deprecated declaration gps_sm_data_distance_receive - give arg types
+  extern float gps_sm_data_distance_receive();
+..\user\algo\algo_sport_cycling.c: 4 warnings, 0 errors
+compiling algo_step_count.c...
+..\user\algo\algo_step_count.c(492): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                                                                                pedometer_data.differ_wave_valley = 0.9*mean_c;
+..\user\algo\algo_step_count.c: 1 warning, 0 errors
+compiling algo_HF_swimming_main.cpp...
+..\user\algo\algo_HF_swimming_main.cpp(912): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                output = ((y_temp[n / 2] + y_temp[n / 2 - 1]) / 2.0);
+..\user\algo\algo_HF_swimming_main.cpp(472): warning:  #177-D: function "SwimDataFilter2" was declared but never referenced
+  static void SwimDataFilter2(const Mat * acc, const Mat * omega, const Mat * A, const Mat * B, const Mat * C, double D,
+..\user\algo\algo_HF_swimming_main.cpp: 2 warnings, 0 errors
+compiling algo_MatFun.c...
+compiling algo_magn_cal.c...
+..\user\algo\algo_magn_cal.c(240): warning:  #177-D: variable "r_flag" was declared but never referenced
+  uint8_t i,j,r_flag = 0,data_same_flag = 0;
+..\user\algo\algo_magn_cal.c(240): warning:  #550-D: variable "data_same_flag" was set but never used
+  uint8_t i,j,r_flag = 0,data_same_flag = 0;
+..\user\algo\algo_magn_cal.c(244): warning:  #177-D: variable "data_radius" was declared but never referenced
+  float dis_magn,dis_temp,data_radius = 0,dis_point[3] = {0};
+..\user\algo\algo_magn_cal.c(246): warning:  #177-D: variable "value_a" was declared but never referenced
+  float value_a,value_ab;
+..\user\algo\algo_magn_cal.c(246): warning:  #177-D: variable "value_ab" was declared but never referenced
+  float value_a,value_ab;
+..\user\algo\algo_magn_cal.c(519): warning:  #177-D: variable "j" was declared but never referenced
+  uint8_t i,j,num_c = 0,num_l = 0,num_d= 0;
+..\user\algo\algo_magn_cal.c(519): warning:  #177-D: variable "num_d" was declared but never referenced
+  uint8_t i,j,num_c = 0,num_l = 0,num_d= 0;
+..\user\algo\algo_magn_cal.c: 7 warnings, 0 errors
+compiling si117x_config.c...
+compiling si117x_functions.c...
+..\user\algo\heartrate\si1181_driver\si117x_functions.c(193): warning:  #550-D: variable "data1" was set but never used
+    u8 data1,data;//[0x3F];
+..\user\algo\heartrate\si1181_driver\si117x_functions.c(382): warning:  #186-D: pointless comparison of unsigned integer with zero
+        if (high < 0 || low < 0 || high_check < 0)
+..\user\algo\heartrate\si1181_driver\si117x_functions.c(382): warning:  #186-D: pointless comparison of unsigned integer with zero
+        if (high < 0 || low < 0 || high_check < 0)
+..\user\algo\heartrate\si1181_driver\si117x_functions.c(382): warning:  #186-D: pointless comparison of unsigned integer with zero
+        if (high < 0 || low < 0 || high_check < 0)
+..\user\algo\heartrate\si1181_driver\si117x_functions.c: 4 warnings, 0 errors
+compiling font_displaystrs.c...
+compiling font_char.c...
+compiling font_chinese.c...
+compiling font_number.c...
+compiling img_background.c...
+compiling img_home.c...
+compiling img_sport.c...
+compiling img_tool.c...
+compiling img_weather.c...
+compiling img_menu.c...
+compiling img_dial.c...
+compiling string_CN.c...
+compiling string_EN.c...
+compiling img_notify.c...
+compiling lib_log.c...
+compiling Pedometer.c...
+..\user\lib\Pedometer\Pedometer.c(321): warning:  #550-D: variable "v_CaxisStrideDetectedFlag_u8r" was set but never used
+     static unsigned char v_CaxisStrideDetectedFlag_u8r=0; /* Composite-axis stride detection flag */
+..\user\lib\Pedometer\Pedometer.c: 1 warning, 0 errors
+compiling event_groups.c...
+compiling list.c...
+compiling queue.c...
+compiling tasks.c...
+compiling timers.c...
+compiling heap_2.c...
+compiling port.c...
+compiling am_util_faultisr.c...
+compiling am_hal_iom.c...
+..\apollo2\hal\am_hal_iom.c(2257): warning:  #550-D: variable "ui32MaxFifoSize" was set but never used
+      uint32_t ui32MaxFifoSize;
+..\apollo2\hal\am_hal_iom.c: 1 warning, 0 errors
+compiling lib_boot.c...
+compiling lib_error.c...
+compiling lib_utf8_gbk.c...
+linking...
+Program Size: Code=604164 RO-data=248972 RW-data=9056 ZI-data=225512  
+FromELF: creating hex file...
+After Build - User command #1: fromelf --bin --output bin_cod\COD.bin bin_cod\COD.axf
+".\bin_cod\COD.axf" - 0 Error(s), 165 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  E:\god_temp_1270\App\keil\RTE
+  D:\keil\ARM\PACK\AmbiqMicro\Apollo_DFP\1.0.0
+
+<h2>Collection of Component Files used:</h2>
+</pre>
+</body>
+</html>

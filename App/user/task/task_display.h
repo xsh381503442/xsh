@@ -1,0 +1,632 @@
+#ifndef _TASK_DISPLAY_H__
+#define _TASK_DISPLAY_H__
+
+#include <stdint.h>
+#include "app_config.h"
+#include "watch_config.h"
+
+// Defines for the possible messages to be sent
+#define MSG_DEFAULT						0	//do nothing
+#define MSG_DISPLAY_SCREEN				1	//显示界面
+#define	MSG_UPDATE_TIME					2	//每分钟更新时间
+#define MSG_START_TOOL              	3	//进入监测任务
+
+#define MSG_UPDATE_COMPASS_VALUE        6   //更新角度
+#define	MSG_UPDATE_COMPASS_CALIBRATION	7	//更新指北针校准界面
+#define MSG_UPDATE_AMBIENT_VALUE		8	//更新气压界面值
+#define	MSG_UPDATE_GPS_VALUE			9	//更新位置界面值
+#define	MSG_UPDATE_STEP_VALUE			10	//更新计步界面值
+#define MSG_UPDATE_HDR_VALUE     		11	//更新心率界面心率值
+#define	MSG_UPDATE_STOPWATCH_TIME		12	//更新秒表计时时间
+#define	MSG_UPDATE_STOPWATCH_RECORD		13	//更新秒表记录
+
+#define MSG_UPDATE_COUNTDOWN      14//倒计时更新界面
+#define MSG_UPDATE_VO2MAX_VALUE    15//最大摄氧量12分钟倒计时界面更新
+#define	MSG_UPDATE_STEP_CALIBRETION		16	//更新步长校准界面步数里程等数据
+#define MSG_UPDATE_VO2MAX_LACTATE_THRESHOLD  17  //仅仅更新一次 最大摄氧量或乳酸阈测量界面
+#define MSG_UPDATE_PACE_TRAINPLAN_SPORT  18 //运动过程中训练计划运动的配速提醒
+#define MSG_UPDATE_INTERVAL_TRAINPLAN_SPORT  19//训练计划运动中间歇训练的提醒 如4x400
+#define MSG_UPDATE_TRAINPLAN_SW_HINT  20//训练计划提醒
+#define MSG_UPDATE_REALTIME_CALIBRATION   21 //自检界面实时时间显示更新
+#define MSG_UPDATE_ICON_CALIBRTIONSTEP    22//里程步数界面校准图标闪烁更新
+#if defined(HARDWARE_TEST)
+#define MSG_UPDATE_TEST_GPS      	92  //GPS测试更新
+#define	MSG_UPDATE_TEST_STEP     	93
+#define	MSG_UPDATE_TEST_COMPASS  	94
+#define MSG_UPDATE_TEST_HEARTRATE 	95 	//心率测试更新
+#define MSG_UPDATE_TEST_FLASH    	96
+#define	MSG_UPDATE_TEST_PRESSURE 	97
+#define MSG_UPDATE_TEST_MOTOR	   	98
+#define MSG_UPDATE_TEST_COMPASS_CALIBRATION 99
+
+#endif
+#define MSG_UPDATE_TIME_CALIBRATION   100
+typedef struct{
+	uint32_t cmd;
+	uint32_t value;
+}DISPLAY_MSG;
+
+typedef enum
+{
+	DISPLAY_SCREEN_LOGO = 0,  	//开机画面
+
+	DISPLAY_SCREEN_HOME,		//主界面
+	DISPLAY_SCREEN_WEEK_AVERAGE_HDR, //过去一周平均基础心率界面
+	DISPLAY_SCREEN_STEP,             //计步界面
+	DISPLAY_SCREEN_VO2MAX,    //最大摄氧量OK键进入界面
+	DISPLAY_SCREEN_MOTIONS_RECORD,   //运动记录界面 //5
+	
+	DISPLAY_SCREEN_NOTIFICATION,     //通知消息类型界面
+	DISPLAY_SCREEN_CALORIES,         //卡路里数值显示界面 运动/基础
+	DISPLAY_SCREEN_LACTATE_THRESHOLD,//乳酸阈数值显示界面 bmp | min/km
+	DISPLAY_SCREEN_TRAINPLAN_MARATHON,//训练计划之马拉松显示界面 状态:前一天/当天/后一天
+	DISPLAY_SCREEN_RECOVERY,          //恢复时间倒计时界面 h/min  //10
+	
+	DISPLAY_SCREEN_LARGE_LOCK,   //大锁提示界面
+	DISPLAY_SCREEN_CUSTOM_ADD_SUB_MAIN,//自定义增减主引导界面
+	DISPLAY_SCREEN_CUSTOM_ADD_SUB,//自定义增减子界面
+	DISPLAY_SCREEN_TIME_IS_MONITOR_HDR_EXPLAIN,//监测心率时间到释义界面
+	
+	DISPLAY_SCREEN_HEARTRATE_HINT,//心率测量提醒界面			//15
+	DISPLAY_SCREEN_HEARTRATE,   //心率测量界面
+	DISPLAY_SCREEN_HEARTRATE_STABLE,//稳定心率界面
+	
+	DISPLAY_SCREEN_STEP_WEEK_STEPS,//计步周计步数界面
+	DISPLAY_SCREEN_STEP_WEEK_MILEAGE,//计步周里程界面
+	DISPLAY_SCREEN_STEP_CALIBRATION_HINT,//计步校准提示界面		//20
+	DISPLAY_SCREEN_STEP_CALIBRATION_SHOW,//计步校准完显示界面
+	DISPLAY_SCREEN_STEP_CALIBRATION_CONFIRM_SAVE,//计步校准确认是否保存界面
+	
+	DISPLAY_SCREEN_VO2MAX_HINT,       //最大摄氧量测量前提醒界面
+	DISPLAY_SCREEN_CUTDOWN,           //倒计时界面
+	DISPLAY_SCREEN_VO2MAX_MEASURING,  //最大摄氧量测量界面			//25
+	DISPLAY_SCREEN_END_UNFINISH_SPORT,//要求完成未完成运动提醒界面 稍后继续后进入最大摄氧量等模式时出现提醒
+  
+
+	
+	DISPLAY_SCREEN_CALORIES_WEEK_SPORTS,//运动卡路里周统计界面
+	DISPLAY_SCREEN_LACTATE_THRESHOLD_HINT,//乳酸阈测试前提醒界面
+	DISPLAY_SCREEN_LACTATE_THRESHOLD_MEASURING,//乳酸阈测试界面
+	DISPLAY_SCREEN_TIME_DONE,//倒计时到完成测试提醒界面
+	DISPLAY_SCREEN_SPORTS_RECORD_TRACK_DETAIL,//运动记录中运动轨迹详细界面
+	
+
+	DISPLAY_SCREEN_TOOL,		//工具选择界面				//30
+	DISPLAY_SCREEN_GPS,        	//定位(经纬度)
+	DISPLAY_SCREEN_COMPASS,    	//指北针
+	DISPLAY_SCREEN_CALENDAR,   	//日历天气
+	DISPLAY_SCREEN_AMBIENT,    	//环境监测(海拔气压)				
+	DISPLAY_SCREEN_STOPWATCH,  	//秒表计时				//35
+	DISPLAY_SCREEN_COUNTDOWN,   //倒计时工具
+	DISPLAY_SCREEN_FINDPHONE,  	//寻找手机
+
+	
+	DISPLAY_SCREEN_COMPASS_CALIBRATION, //地磁校准界面，监测子界面开始，添加其他监测子界面在此后(可修改)
+	
+	DISPLAY_SCREEN_AMBIENT_MENU,		//环境监测菜单界面
+	DISPLAY_SCREEN_AMBIENT_PRESSURE,	//环境监测气压界面
+	DISPLAY_SCREEN_AMBIENT_ALTITUDE,	//环境监测高度界面		//40
+	DISPLAY_SCREEN_AMBIENT_ALTITUDE_CALIBRATION,	//环境监测高度校准界面
+
+#if defined (WATCH_TOOL_COUNTDOWN)
+	DISPLAY_SCREEN_FINDPHONE_START,		//开始寻找手机
+
+	DISPLAY_SCREEN_COUNTDOWN_SETTING,	//倒计时设置
+	DISPLAY_SCREEN_COUNTDOWN_MENU,		//倒计时菜单
+	DISPLAY_SCREEN_COUNTDOWN_TIME,		//倒计时时间
+	DISPLAY_SCREEN_COUNTDOWN_EXIT,		//倒计时退出
+	DISPLAY_SCREEN_COUNTDOWN_FINISH,	//倒计时结束
+#endif
+	DISPLAY_SCREEN_STOPWATCH_MENU,		//秒表菜单界面
+	DISPLAY_SCREEN_STOPWATCH_RECORD,	//秒表记录界面				
+	
+	DISPLAY_SCREEN_GPS_DETAIL,			//GPS设置界面
+	DISPLAY_SCREEN_PROJECTION_ZONING,   //投影分带界面
+	DISPLAY_SCREEN_CLOUD_NAVIGATION,    //云迹导航界面
+	DISPLAY_SCREEN_MOTION_TRAIL,        //运动轨迹界面
+	DISPLAY_SCREEN_MOTION_TRAIL_DETAIL, //运动轨迹详细数据界面
+	DISPLAY_SCREEN_VIEW_MOTION_TRAIL,	//查看运动轨迹界面
+	DISPLAY_SCREEN_NAVIGATION_OPS,      //云迹导航选择界面
+	DISPLAY_SCREEN_CLOUD_NAVIGATION_TRAIL,  //云迹导航查看轨迹界面
+	DISPLAY_SCREEN_CLOUD_NAVIGATION_DEL,    //云迹导航删除界面
+	DISPLAY_SCREEN_START_NAVIGATION_READY,  //开始导航准备界面
+	DISPLAY_SCREEN_GPS_TRAIL_REMIND,    //处在运动稍后继续时进入轨迹的提示界面
+	DISPLAY_SCREEN_TRACK_LOAD,              //轨迹加载界面
+	
+	DISPLAY_SCREEN_WEATHER_INFO, //天气信息界面
+	
+	DISPLAY_SCREEN_APP_MSG_INFO, //推送消息菜单界面
+	
+    DISPLAY_SCREEN_SPORT,				//运动选择界面
+	
+	DISPLAY_SCREEN_RUN,			        //跑步
+	DISPLAY_SCREEN_MARATHON,            //马拉松				
+	DISPLAY_SCREEN_CROSSCOUNTRY,    //越野跑
+	DISPLAY_SCREEN_INDOORRUN,           //室内跑
+	DISPLAY_SCREEN_WALK,        //健走
+	DISPLAY_SCREEN_CLIMBING,		    //登山
+	DISPLAY_SCREEN_CYCLING,			    //骑行					
+	DISPLAY_SCREEN_CROSSCOUNTRY_HIKE,	//徒步越野
+	DISPLAY_SCREEN_SWIMMING,	            //室内游泳
+	DISPLAY_SCREEN_TRIATHLON,		    //铁人三项
+	DISPLAY_SCREEN_TRIATHLON_SWIMMING,			//铁人三项（游泳）
+	DISPLAY_SCREEN_TRIATHLON_CYCLING,			//铁人三项（骑行）		
+	DISPLAY_SCREEN_TRIATHLON_RUNNING,			//铁人三项（跑步）
+	DISPLAY_SCREEN_TRIATHLON_FIRST_CHANGE,		//铁人三项第一换项界面
+	DISPLAY_SCREEN_TRIATHLON_SECOND_CHANGE,		//铁人三项第二换项界面
+	DISPLAY_SCREEN_TRIATHLON_FINISH,			//铁人三项完成界面
+	DISPLAY_SCREEN_TRIATHLON_PAUSE,				//铁人三项暂停菜单界面			
+	DISPLAY_SCREEN_TRIATHLON_CANCEL,			//铁人三项取消菜单界面
+	DISPLAY_SCREEN_TRIATHLON_DETAIL,			//铁人三项详细数据界面
+	
+	
+	
+	DISPLAY_SCREEN_TRAINPLAN_RUN,   //训练计划跑步
+	DISPLAY_SCREEN_TRAINPLAN_CYCLING,//训练计划骑行
+	DISPLAY_SCREEN_TRAINPLAN_SWIMMING,//训练计划游泳
+	DISPLAY_SCREEN_TRAINPLAN_HOME_RUN_HINT,//训练计划待机界面当天详情提示
+	DISPLAY_SCREEN_TRAINPLAN_SPORT_RUN_HINT,//训练计划运动界面当天详情提示
+	DISPLAY_SCREEN_TRAINPLAN_IS_COMPLETE,//训练计划待机界面是否完成确认界面
+	DISPLAY_SCREEN_TRAINPLAN_RUN_SELECT,//训练计划运动模式进入时提醒选择是执行训练计划还是跑步界面
+#if defined WATCH_SIM_SPORT
+
+#elif defined WATCH_COM_SPORT
+	DISPLAY_SCREEN_RUN_PAUSE,				//跑步暂停菜单界面
+	DISPLAY_SCREEN_RUN_CANCEL,				//跑步取消菜单界面(放弃)
+	DISPLAY_SCREEN_RUN_DETAIL,				//跑步详细数据界面
+
+
+      /*新增*/
+	DISPLAY_SCREEN_SPORT_READY, 				//运动 准备界面
+	DISPLAY_SCREEN_SPORT_DATA_DISPLAY_PREVIEW,  //运动 数据显示预览界面
+	DISPLAY_SCREEN_SPORT_DATA_DISPLAY,			//运动 数据显示界面(显示栏内容)
+	DISPLAY_SCREEN_SPORT_DATA_DISPLAY_SET,		//运动 数据显示设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET,			//运动提醒 设置界面
+    DISPLAY_SCREEN_SPORT_REMIND_SET_HAERT,					//心率告警设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_PACE,					//配速提醒设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_DISTANCE,				//距离提醒设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_AUTOCIRCLE, 			//自动计圈设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_COALKCAL,				//燃脂目标设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_TIME,					//时间提醒设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_SPEED,					//速度提醒设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_SWIMPOOL,				//泳池长度设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_GOALCIRCLE, 			//计圈提醒设置界面
+	DISPLAY_SCREEN_SPORT_REMIND_SET_INDOORLENG, 			//室内跑步长设置界面
+    DISPLAY_SCREEN_SPORT_REMIND_SET_ALTITUDE, 			//(登山)高度设置界面
+ 
+
+#else	
+	DISPLAY_SCREEN_RUN_READY,			        //跑步准备
+	DISPLAY_SCREEN_RUN_DATA,			        //跑步数据
+	DISPLAY_SCREEN_RUN_TRACK,			        //跑步轨迹					
+	DISPLAY_SCREEN_RUN_PAUSE_DATA,        //跑步暂停数据（从暂停界面通过按back键返回，注意不要在上下之间插入枚举） 		
+	DISPLAY_SCREEN_RUN_PAUSE_TRACK,       //跑步暂停轨迹数据（从暂停界面通过按back键返回）
+	DISPLAY_SCREEN_RUN_PAUSE,                   //跑步暂停
+	DISPLAY_SCREEN_RUN_PAUSE_BACK_DATA_PAUSE,           //跑步暂停返回数据暂停界面
+	DISPLAY_SCREEN_RUN_PAUSE_BACK_TRACK_PAUSE,           //跑步暂停返回轨迹暂停界面
+		
+	DISPLAY_SCREEN_RUN_DATA_TRACKBACK,		//循迹返航数据（注意不要在上下之间插入枚举）
+	DISPLAY_SCREEN_RUN_TRACK_TRACKBACK,		//循迹返航轨迹				
+	DISPLAY_SCREEN_RUN_TRACKBACK_PAUSE,		//跑步循迹返航暂停
+#endif
+	//Jason_V1.00:Addin Swimming Interface Display Strings in the following section:
+
+#if defined WATCH_SIM_SPORT
+	DISPLAY_SCREEN_SWIM_PAUSE,				//游泳暂停菜单界面
+	DISPLAY_SCREEN_SWIM_CANCEL, 			//游泳取消菜单界面
+	DISPLAY_SCREEN_SWIM_DETAIL, 			//游泳详细数据界面
+#elif defined WATCH_COM_SPORT
+	
+    DISPLAY_SCREEN_SWIM_PAUSE,				//游泳暂停菜单界面
+	DISPLAY_SCREEN_SWIM_CANCEL, 			//游泳取消菜单界面
+	DISPLAY_SCREEN_SWIM_DETAIL, 			//游泳详细数据界面
+#else
+	DISPLAY_SCREEN_SWIM_READY,			        //游泳准备
+	DISPLAY_SCREEN_SWIM_DATA,			        //游泳数据
+	DISPLAY_SCREEN_SWIM_STATS,			        //游泳详情
+	DISPLAY_SCREEN_SWIM_PAUSE,                  //游泳暂停			
+	DISPLAY_SCREEN_SWIM_POOL_SET,				//游泳长度更改					
+	DISPLAY_SCREEN_SWIM_DATA_PAUSE,			//游泳数据暂停界面
+	DISPLAY_SCREEN_SWIM_STATS_PAUSE,			//游泳详情暂停界面
+	
+	DISPLAY_SCREEN_SWIM_SAVE_DETIAL_1,           //运动详细界面1
+	DISPLAY_SCREEN_SWIM_SAVE_DETIAL_2,           //运动详细界面2
+	DISPLAY_SCREEN_SWIM_SAVE_HEARTRATEZONE,       //运动详细心率区间界面
+#endif
+	//Jason_V1.10:Addin CrossCountryRunning Interface Display Strings in the following section:
+#if defined WATCH_COM_SPORT
+	DISPLAY_SCREEN_CROSSCOUNTRY_PAUSE,				//越野跑暂停菜单界面
+	DISPLAY_SCREEN_CROSSCOUNTRY_CANCEL,				//越野跑取消菜单界面
+	DISPLAY_SCREEN_CROSSCOUNTRY_DETAIL,				//越野跑详细数据界面
+#else
+	DISPLAY_SCREEN_CROSSCOUNTRY_READY,		        //越野跑准备 越野跑
+	DISPLAY_SCREEN_CROSSCOUNTRY_TRACK,			        //越野跑轨迹
+	DISPLAY_SCREEN_CROSSCOUNTRY_DATA,			        //越野跑数据				
+	DISPLAY_SCREEN_CROSSCOUNTRY_PAUSE,                   //越野跑暂停
+	DISPLAY_SCREEN_CROSSCOUNTRY_TRACK_PAUSE,           //越野跑暂停返回界面
+	DISPLAY_SCREEN_CROSSCOUNTRY_DATA_PAUSE,           //越野跑暂停返回界面
+	
+	DISPLAY_SCREEN_CROSSCOUNTRY_SAVE_DETIAL_1,       //越野跑详细界面1
+	DISPLAY_SCREEN_CROSSCOUNTRY_SAVE_DETIAL_2,			 //越野跑详细界面2
+	DISPLAY_SCREEN_CROSSCOUNTRY_SAVE_DETIAL_3,			 //越野跑详细界面2
+	DISPLAY_SCREEN_CROSSCOUNTRY_SAVE_TRACK,               //越野跑详细轨迹界面
+	DISPLAY_SCREEN_CROSSCOUNTRY_SAVE_HEARTRATEZONE,       //越野跑详细心率区间界面			
+#endif
+	//Jason's code end in here
+	DISPLAY_SCREEN_SPORT_CANCEL,                //运动放弃
+	DISPLAY_SCREEN_SPORT_FEEL,                  //运动感受
+	DISPLAY_SCREEN_SPORT_HRRECROVY,                  //心率恢复
+	DISPLAY_SCREEN_SPORT_SAVING,                //运动正在保存				
+	DISPLAY_SCREEN_SPORT_SAVED,                 //运动保存成功
+#if defined WATCH_SIM_SPORT || defined WATCH_COM_SPORT
+	DISPLAY_SCREEN_REMIND_PAUSE,	//暂停提醒界面
+
+#else
+	DISPLAY_SCREEN_RUN_SAVE_DETIAL_1,            //运动详细界面1
+	DISPLAY_SCREEN_RUN_SAVE_DETIAL_2,            //运动详细界面2
+	DISPLAY_SCREEN_RUN_SAVE_TRACK,               //运动详细轨迹界面
+	DISPLAY_SCREEN_RUN_SAVE_HEARTRATEZONE,       //运动详细心率区间界面			
+#endif
+	DISPLAY_SCREEN_CYCLING_PAUSE,				//骑行暂停菜单界面
+	DISPLAY_SCREEN_CYCLING_CANCEL,				//骑行取消菜单界面
+	DISPLAY_SCREEN_CYCLING_DETAIL,				//骑行详细数据界面
+	
+	DISPLAY_SCREEN_INDOORRUN_PAUSE,				//室内跑暂停菜单界面
+	DISPLAY_SCREEN_INDOORRUN_CANCEL,			//室内跑取消菜单界面
+	DISPLAY_SCREEN_INDOORRUN_DETAIL,			//室内跑详细数据界面
+#if defined WATCH_COM_SPORT
+	//DISPLAY_SCREEN_SPORT_REMIND_SET_INDOORLENG,				//室内跑步长设置界面
+#endif
+#if defined WATCH_SPORT_EVENT_SCHEDULE //赛事赛段界面
+	DISPLAY_SCREEN_SPORT_EVENT_RESTART_SELECT,//运动开始是否继续是否重新开始选择界面
+#endif
+	DISPLAY_SCREEN_WALK_PAUSE,					//健走暂停菜单界面
+	DISPLAY_SCREEN_WALK_CANCEL,					//健走取消菜单界面
+	DISPLAY_SCREEN_WALK_DETAIL,					//健走详细数据界面
+	
+	DISPLAY_SCREEN_MARATHON_PAUSE,				//马拉松暂停菜单界面
+	DISPLAY_SCREEN_MARATHON_CANCEL,				//马拉松取消菜单界面
+	DISPLAY_SCREEN_MARATHON_DETAIL,				//马拉松详细数据界面
+
+	DISPLAY_SCREEN_CROSSCOUNTRY_HIKE_PAUSE,				//徒步越野暂停菜单界面
+	DISPLAY_SCREEN_CROSSCOUNTRY_HIKE_CANCEL,				//徒步越野取消菜单界面		
+	DISPLAY_SCREEN_CROSSCOUNTRY_HIKE_DETAIL,				//徒步越野详细数据界面
+#if defined WATCH_COM_SPORT
+	DISPLAY_SCREEN_CLIMBING_PAUSE,				//登山停菜单界面
+	DISPLAY_SCREEN_CLIMBING_CANCEL, 			//登山取消菜单界面
+	DISPLAY_SCREEN_CLIMBING_DETAIL, 			//登山详细数据界面
+#else
+	DISPLAY_SCREEN_CLIMBING_READY,			        //登山准备 
+	DISPLAY_SCREEN_CLIMBING_TRACK,			        //登山轨迹
+	DISPLAY_SCREEN_CLIMBING_DATA,			        //登山数据
+	DISPLAY_SCREEN_CLIMBING_PAUSE,                   //登山暂停					
+	//DISPLAY_SCREEN_CLIMBING_CANCEL,           //登山放弃界面
+	//DISPLAY_SCREEN_CLIMBING_FEEL,                //登山结束界面
+	DISPLAY_SCREEN_CLIMBING_PAUSE_BACK_TRACK,           //登山暂停返回
+	DISPLAY_SCREEN_CLIMBING_PAUSE_BACK_DATA,           //登山暂停返回
+	DISPLAY_SCREEN_CLIMBING_PAUSE_BACK_TRACK_TARCEBACK,           //登山暂停返回轨迹暂停界面
+	DISPLAY_SCREEN_CLIMBING_PAUSE_BACK_DATA_TRACEBACK,           //登山暂停返回数据暂停界面
+	DISPLAY_SCREEN_CLIMBING_TRACK_TRACKBACK,		//登山循迹返航轨迹	
+	DISPLAY_SCREEN_CLIMBING_DATA_TRACKBACK,		//登山循迹返航数据（注意不要在上下之间插入枚举）			
+	DISPLAY_SCREEN_CLIMBING_TRACKBACK_PAUSE,        //登山循迹返航暂停
+
+	DISPLAY_SCREEN_CLIMBING_SAVING,              //登山结束保存界面
+	DISPLAY_SCREEN_CLIMBING_SAVE_DETIAL_1,       //登山详细界面1
+	DISPLAY_SCREEN_CLIMBING_SAVE_DETIAL_2,			 //登山详细界面2				
+	DISPLAY_SCREEN_CLIMBING_SAVE_TRACK,               //登山详细轨迹界面
+	DISPLAY_SCREEN_CLIMBING_SAVE_HEARTRATEZONE,       //登山详细心率区间界面
+#endif	
+	DISPLAY_SCREEN_TEST_CALIBRATION_VIEW_STATUS,//精密时间校准测试状态查看
+	DISPLAY_SCREEN_TEST_REAL_DIFF_TIME, //实时时间误差统计界面 RTC与GPS时间比对
+	DISPLAY_SCREEN_MENU,                                              //主菜单
+    DISPLAY_SCREEN_THEME = DISPLAY_SCREEN_MENU +1,                    //主题
+    DISPLAY_SCREEN_TIME,                     //时间
+	DISPLAY_SCREEN_SPORTS_RECORD,            //运动记录
+	DISPLAY_SCREEN_CUSTOMIZED_TOOLS,         //自定义工具
+	DISPLAY_SCREEN_CUSTOMIZED_SPORTS,        //自定义运动			
+    DISPLAY_SCREEN_ACCESSORY,                //配件连接
+    DISPLAY_SCREEN_SYSTEM,                   //系统
+	DISPLAY_SCREEN_WATCH_INFO,               //关于手表	
+	DISPLAY_SCREEN_THEME_APP_MENU,			//主题应用菜单
+	DISPLAY_SCREEN_THEME_APP_CUSTOM,		//主题自定义界面
+
+
+
+	
+#if defined WATCH_TIMEZONE_SET	
+	DISPLAY_SCREEN_TIMEZONE_SET,                    //时区设置	
+#endif
+	DISPLAY_SCREEN_UTC_GET,                    //卫星授时	
+	DISPLAY_SCREEN_ALARM,                      //闹钟
+	DISPLAY_SCREEN_ALARM_SET = DISPLAY_SCREEN_ALARM + 1,                      //闹钟选择
+	DISPLAY_SCREEN_ALARM_SET_TIME,                      //闹钟时间设置
+	DISPLAY_SCREEN_ALARM_SET_SOUND_N_VIBERATE,                      //闹钟声音震动设置
+	DISPLAY_SCREEN_ALARM_SET_REPITION,                      //闹钟重复设置
+	#if defined WATCH_TIMEZONE_SET
+	DISPLAY_SCREEN_TIMEZONE_SELECT,						//时区设置选择界面
+	#endif
+	DISPLAY_SCREEN_SPORTS_RECORD_DETAIL,                      //活动记录详情	
+	DISPLAY_SCREEN_SPORTS_RECORD_DELETE,                      //活动记录删除
+	DISPLAY_SCREEN_ACCESSORY_HEARTRATE,    						 //心率配件界面索引   
+	DISPLAY_SCREEN_ACCESSORY_RUNNING,    						 //跑步配件界面索引   
+	DISPLAY_SCREEN_ACCESSORY_CYCLING_WHEEL,    						 //自行车滚轮配件界面索引   		
+	DISPLAY_SCREEN_ACCESSORY_CYCLING_CADENCE,    						 //自行车踏频配件界面索引   
+	DISPLAY_SCREEN_SYSTEM_BASE_HEARTRATE,    						 //基础心率选择界面索引   
+	DISPLAY_SCREEN_SYSTEM_LANGUAGE,    						 //中英文选择界面索引  
+	DISPLAY_SCREEN_SYSTEM_BACKLIGHT,    						 //背光时长选择界面索引    
+	DISPLAY_SCREEN_SYSTEM_SOUND,    						 //声音震动选择界面索引 
+	DISPLAY_SCREEN_SYSTEM_SILENT,                              //勿扰模式设置界面索引
+    DISPLAY_SCREEN_SYSTEM_SILENT_TIME,                         //勿扰模式时间设置界面
+   	DISPLAY_SCREEN_SYSTEM_AUTOLIGHT,                              //抬手亮屏设置界面索引
+    DISPLAY_SCREEN_SYSTEM_AUTOLIGHT_TIME,                         //抬手亮屏时间设置界面
+ 	DISPLAY_SCREEN_NOTIFY_ALARM,          //闹钟通知界面索引                        
+    DISPLAY_SCREEN_SOS,					//SOS界面
+	DISPLAY_SCREEN_SOS_MENU,			//SOS菜单界面
+#ifdef COD 
+	DISPLAY_SCREEN_TRAIN_CAST,		   //训练投屏界面
+    DISPLAY_SCREEN_TRAIN_CAST_PAUSE_REMIND,	//训练暂停界面
+    DISPLAY_VICE_SCREEN_OUTDOOR_RUN,//副屏户外跑
+    DISPLAY_VICE_SCREEN_OUTDOOR_WALK,//副屏户外健走(徒步越野)
+	DISPLAY_VICE_SCREEN_RIDE,//副屏骑行
+	DISPLAY_VICE_SCREEN_CLIMB,//副屏登山
+	DISPLAY_SCREEN_SPORT_CAST_PAUSE_REMIND, //运动投屏暂停菜单界面
+	DISPLAY_VICE_SCREEN_SPORT_DATA,//运动投屏结束数据详情界面
+	DISPLAY_SCREEN_UPDATE_BP ,      //表盘升级提示界面
+#endif
+	
+	DISPLAY_SCREEN_POST_SETTINGS,//自检设置     
+	DISPLAY_SCREEN_POST_HDR,//心率自检,漏光测试	
+	DISPLAY_SCREEN_POST_HDR_SNR,//心率自检,信噪比测试		
+	DISPLAY_SCREEN_POST_FACTORY_RESET,//恢复出厂设置
+	DISPLAY_SCREEN_POST_WATCH_INFO,//自检里面显示手表软件硬件信息
+	DISPLAY_SCREEN_POST_GPS,   //自检GPS+BD
+	DISPLAY_SCREEN_POST_GPS_DETAILS,//自检GPS详情
+#if defined(WATCH_AUTO_BACK_HOME)
+	DISPLAY_SCREEN_POST_AUTO_BACK_HOME,//自检 无数据刷新页面超过10分钟无任何操作（无按键操作）返回待机界面 状态显示
+#endif
+	DISPLAY_SCREEN_BLE_DFU ,             //手机APP蓝牙升级界面
+	DISPLAY_SCREEN_PC_HWT ,             //PC端PCB硬件测试界面
+
+	DISPLAY_SCREEN_NOTIFY ,            //通知界面索引起始
+	DISPLAY_SCREEN_NOTIFY_SPORTS_RECORD_DELETE = DISPLAY_SCREEN_NOTIFY,    //删除活动数据通知界面索引   
+	DISPLAY_SCREEN_NOTIFY_BLE_CONNECT,    //蓝牙连接通知界面索引  
+	DISPLAY_SCREEN_NOTIFY_BLE_DISCONNECT, //蓝牙断开通知界面索引   
+	DISPLAY_SCREEN_NOTIFY_BLE_BOND,       //蓝牙绑定通知界面索引  
+	DISPLAY_SCREEN_NOTIFY_BLE_PASSKEY,    //蓝牙配对码通知界面索引  
+	DISPLAY_SCREEN_NOTIFY_TIME_IS_MONITOR_HDR,//监测心率时间到弹出框界面
+	DISPLAY_SCREEN_NOTIFY_LOW_BAT,        //低电量提醒界面索引     
+	DISPLAY_SCREEN_NOTIFY_APP_MSG,        //APP推送消息提醒界面索引
+	DISPLAY_SCREEN_NOTIFY_BAT_CHG,        //电池充电界面	
+
+    DISPLAY_SCREEN_NOTIFY_HEARTRATE,      //心率过高提醒界面
+	DISPLAY_SCREEN_NOTIFY_CALORY,		  //每日卡路里提醒界面（总共）
+	DISPLAY_SCREEN_NOTIFY_STEP,           //步数提醒界面		（总共）	
+	
+	DISPLAY_SCREEN_NOTIFY_GOALKCAL,       //目标燃脂提醒界面（运动）
+	DISPLAY_SCREEN_NOTIFY_GOALCIRCLE,     //目标圈数提醒界面			
+	DISPLAY_SCREEN_NOTIFY_GOALTIME,       //目标时间提醒界面
+	DISPLAY_SCREEN_NOTIFY_GOALDISTANCE,	  //距离提醒界面
+	DISPLAY_SCREEN_NOTIFY_CIRCLEDISTANCE, //计圈距离提醒界面
+	DISPLAY_SCREEN_NOTIFY_ALTITUDE,       //高度提醒界面
+	DISPLAY_SCREEN_NOTIFY_SPEED, 		  //速度提醒界面
+	DISPLAY_SCREEN_NOTIFY_PACE,           //配速提醒界面
+    DISPLAY_SCREEN_NOTIFY_LIFE_DATA,      //生命体征数据
+	
+	DISPLAY_SCREEN_NOTIFY_TRAINING_DAY,   //训练计划 训练日提醒
+	DISPLAY_SCREEN_NOTIFY_TRAINING_COMPLETE,   //训练计划 训练目标达成提醒
+	DISPLAY_SCREEN_NOTIFY_PACE_TRAINPLAN,      //训练计划配速提醒
+	DISPLAY_SCREEN_NOTIFY_PACE_INTER_TRAINPLAN,//训练计划间歇训练4x400+4x200类似的提醒
+	DISPLAY_SCREEN_NOTIFY_SW_HINT,
+	DISPLAY_SCREEN_NOTIFY_WARNING,        //关于手表提醒界面
+	DISPLAY_SCREEN_NOTIFY_VO2MAX_LACTATE_ERALY_END,//最大摄氧量及乳酸阈提前结束时提醒界面
+	DISPLAY_SCREEN_NOTIFY_FIND_WATCH,				//寻找手表界面
+#ifdef COD 
+	DISPLAY_SCREEN_TRAIN_CAST_START_REMIND,	//训练即将开始运动提醒
+	DISPLAY_SCREEN_TRAIN_CAST_PRESS_REMIND,	//训练暂停按键提醒
+	
+	DISPLAY_SCREEN_REMIND_VICE_PAUSE_CONTINUE,//运动投屏暂停提醒界面
+	DISPLAY_VICE_SCREEN_SPORT_HINT,//运动副屏即将开始提醒
+	DISPLAY_SCREEN_TRAIN_CAST_END_REMIND,	//训练结束提醒
+	DISPLAY_SCREEN_NOTIFY_ON_BIND_DEVICE,	//绑定确认界面
+	DISPLAY_SCREEN_NOTIFY_BIND_STATUS,		//绑定确认界面
+	
+     DISPLAY_SCREEN_NOTIFY_LOCATION_OK,	//定位成功提醒
+#endif
+
+
+	DISPLAY_SCREEN_TRIATHLON_CYCLING_READY,		//铁人三项骑行准备界面
+	DISPLAY_SCREEN_TRIATHLON_RUNNING_READY,		//铁人三项跑步准备界面
+	DISPLAY_SCREEN_THEME_PREVIEW,				//主题预览界面
+	DISPLAY_SCREEN_THEME_APP_SUCCESS,			//主题应用成功提醒
+	DISPLAY_SCREEN_THEME_INVALID,				//主题无效提醒
+	
+	DISPLAY_SCREEN_TIME_CALIBRATION,//精密时间测量界面
+	DISPLAY_SCREEN_TIME_CALIBRATION_DETAIL,//精密时间测量结果详情界面
+	DISPLAY_SCREEN_TIME_CALIBRATION_REALTIME,//精密时间实时时间界面
+
+   //自定义至少保留一个界面
+    DISPLAY_SCREEN_CUSTOM_MON_HINT, 
+    DISPLAY_SCREEN_CUSTOM_TOOL_HINT,
+    DISPLAY_SCREEN_CUSTOM_SPORT_HINT,
+
+  
+
+	/*添加新界面时在该界面之上添加*/
+	DISPLAY_SCREEN_END_TAIL,//索引最后一个界面  
+}ScreenState_t;
+
+extern QueueHandle_t DisplayQueue;
+extern ScreenState_t ScreenState;
+extern ScreenState_t ScreenStateSave;
+//#if defined WATCH_SIM_SPORT
+extern ScreenState_t ScreenSportSave;
+//#endif
+
+extern volatile ScreenState_t Menu_Index;	//子索引
+extern TaskHandle_t	TaskDisplayHandle;
+//Display
+extern void CreatDisplayTask(void);
+extern void TaskDisplay(void* pvParameter);
+extern void DisplayScreen(uint32_t index);
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

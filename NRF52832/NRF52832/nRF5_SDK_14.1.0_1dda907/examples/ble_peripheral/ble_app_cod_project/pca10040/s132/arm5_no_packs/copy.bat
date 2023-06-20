@@ -1,0 +1,1 @@
+C:\Windows\System32\cp.exe .\COD\Output\application.hex ..\..\..\..\..\..\output\download_tool\application
